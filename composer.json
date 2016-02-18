@@ -1,34 +1,37 @@
 {
-    "name": "spatie/:package_name",
-    "description": ":package_description",
+    "name": "spatie/laravel-failed-jobs-monitor",
+    "description": "Sends mail and slack notifications about the failed jobs.",
     "keywords": [
         "spatie",
-        ":package_name"
+        "laravel-failed-jobs-monitor"
     ],
-    "homepage": "https://github.com/spatie/:package_name",
+    "homepage": "https://github.com/spatie/laravel-failed-jobs-monitor",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
+            "name": "Jolita Grazyte",
+            "email": "jolita@spatie.be",
             "homepage": "https://spatie.be",
             "role": "Developer"
         }
     ],
     "require": {
-        "php" : "^7.0"
+        "php" : "^7.0",
+        "illuminate/support": "~5.0",
+        "nesbot/carbon": "~1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.*"
+        "phpunit/phpunit": "5.*",
+        "orchestra/testbench":"^3.0",
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Skeleton\\": "src"
+            "Spatie\\FailedJobsMonitor\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Skeleton\\Test\\": "tests"
+            "Spatie\\FailedJobsMonitor\\Test\\": "tests"
         }
     },
     "scripts": {

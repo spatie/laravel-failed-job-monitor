@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Skeleton;
+namespace Spatie\FailedJobsMonitor;
 
-class SkeletonClass
+class FailedJobsMonitor
 {
     /**
      * Create a new Skeleton Instance
