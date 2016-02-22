@@ -19,10 +19,12 @@
         "php" : "^7.0",
         "illuminate/support": "~5.0",
         "nesbot/carbon": "~1.0"
+
     },
     "require-dev": {
         "phpunit/phpunit": "5.*",
-        "orchestra/testbench":"^3.0"
+        "orchestra/testbench":"^3.0",
+        "maknz/slack": "^1.5"
     },
     "autoload": {
         "psr-4": {
@@ -36,5 +38,8 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
+    },
+    "suggest": {
+        "maknz/slack": "Allows notifications to be sent via Slack"
     }
 }

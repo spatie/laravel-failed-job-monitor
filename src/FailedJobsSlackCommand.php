@@ -37,7 +37,7 @@ class FailedJobsSlackCommand extends Command
      */
     public function handle(FailedJobNotifier $failedJobNotifier)
     {
-        $failedJobNotifier->sendFailedJobOverview();
+        $failedJobNotifier->sendFailedJobOverview('slack');
 
     }
 

@@ -10,6 +10,9 @@ class FailedJob extends Model
 {
     protected $table = 'failed_jobs';
     protected $dates = ['failed_at'];
+    public $timestamps = false;
+
+    protected $fillable = ['connection', 'queue', 'payload', 'failed_at'];
 
     protected $casts = [
         'payload' => 'json'

@@ -37,7 +37,7 @@ class FailedJobsMailCommand extends Command
      */
     public function handle(FailedJobNotifier $failedJobNotifier)
     {
-        $failedJobNotifier->sendFailedJobOverview();
+        $failedJobNotifier->sendFailedJobOverview('mail');
 
     }
 
