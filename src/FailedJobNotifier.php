@@ -6,6 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Queue\Events\JobFailed;
 use Queue;
 use Illuminate\Contracts\Mail\Mailer;
+use Slack;
 
 class FailedJobNotifier
 {
