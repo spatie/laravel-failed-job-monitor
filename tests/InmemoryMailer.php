@@ -2,8 +2,9 @@
 
 namespace Spatie\FailedJobsMonitor\Test;
 
+use Illuminate\Contracts\Mail\Mailer;
 
-class InMemoryMailer
+class InMemoryMailer implements Mailer
 {
     private $messages;
 
@@ -12,11 +13,21 @@ class InMemoryMailer
         $this->messages = collect();
     }
 
-    public function send($template, $data, $callback)
+    public function send($template, array $data, $callback)
     {
         $message = new Message($template, $data);
         $callback($message);
         $this->messages[] = $message;
+    }
+
+    public function raw($text, $callback)
+    {
+
+    }
+
+    public function failures()
+    {
+
     }
 
     public function hasMessageFor($email)
@@ -31,5 +42,17 @@ class InMemoryMailer
         return $this->messages->contains(function ($i, $message) use ($subject) {
             return $message->subject == $subject;
         });
+    }
+
+    public function hasContent($content)
+    {
+
+        foreach($this->messages as $message)
+        {
+//            dd(view($message->template, $message->data)->render());
+            return str_contains(view($message->template, $message->data)->render(), $content);
+
+        }
+
     }
 }

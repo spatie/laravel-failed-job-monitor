@@ -2,11 +2,10 @@
 
 namespace Spatie\FailedJobsMonitor;
 
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Queue\Events\JobFailed;
+use Maknz\Slack\Client as Slack;
 use Queue;
 use Illuminate\Contracts\Mail\Mailer;
-use Slack;
 
 class FailedJobNotifier
 {
@@ -14,10 +13,9 @@ class FailedJobNotifier
     protected $slack;
 
 
-    public function __construct(Mailer $mailer, Slack $slack)
+    public function __construct(Mailer $mailer)
     {
         $this->mailer   = $mailer;
-        $this->slack    = $slack;
     }
 
     public function getFailedJobClassUnserialized($event){
@@ -85,10 +83,10 @@ class FailedJobNotifier
 
 //        \Log::info(config('slack'));
 
-        $this->slack
-            ->to($config['channel'])
-            ->withIcon(':'.$config['icon'].':')
-            ->send($message);
+//        $this->slack
+//            ->to($config['channel'])
+//            ->withIcon(':'.$config['icon'].':')
+//            ->send($message);
 
     }
 }

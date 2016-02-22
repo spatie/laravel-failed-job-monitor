@@ -14,18 +14,7 @@ class FailedJobMonitorTest extends TestCase
         parent::setUp();
 
         $this->mailer = new InMemoryMailer;
-        $this->app->instance('mailer', $this->mailer);
 
-        dd($this->mailer);
-    }
-
-    /**
-     * @test
-     */
-    public function testExample()
-    {
-        $notifier = new FailedJobNotifier($this->mailer);
-        $notifier->sendFailedJobOverview('mail');
     }
 
     /**
@@ -33,12 +22,21 @@ class FailedJobMonitorTest extends TestCase
      */
     public function message_has_a_specified_subject()
     {
+        $notifier = new FailedJobNotifier($this->mailer);
+        $notifier->sendFailedJobOverview('mail');
         $this->assertTrue($this->mailer->hasMessageWithSubject('Some of your jobs failed.'));
     }
 
+
+
+    /**
+     * @test
+     */
     public function message_has_content()
     {
-        $this->assertTrue(true);
+        $notifier = new FailedJobNotifier($this->mailer);
+        $notifier->sendFailedJobOverview('mail');
+        $this->assertTrue($this->mailer->hasContent('SendReminderEmail'));
 
     }
 

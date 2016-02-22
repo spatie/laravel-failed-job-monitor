@@ -7,7 +7,7 @@ class Message
 {
     public $template;
     public $data;
-    public $to;
+    public $from;
     public $subject;
 
     public function __construct($template, $data)
@@ -17,6 +17,12 @@ class Message
     }
 
     public function to($email)
+    {
+        $this->to = $email;
+        return $this;
+    }
+
+    public function from($email)
     {
         $this->to = $email;
         return $this;

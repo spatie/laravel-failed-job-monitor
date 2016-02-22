@@ -25,6 +25,7 @@
         "phpunit/phpunit": "5.*",
         "orchestra/testbench":"^3.0",
         "maknz/slack": "^1.5"
+
     },
     "autoload": {
         "psr-4": {
