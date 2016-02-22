@@ -10,7 +10,7 @@ return [
         ],
 
         'slack' => [
-            'frequency' => 'immediately', // none/immediately|hourly|daily|weekly
+            'frequency' => 'none', // none/immediately|hourly|daily|weekly
             'channel'  => '#failed-jobs',
             'username' => 'Failed jobs bot',
             'icon'     => ':robot:',

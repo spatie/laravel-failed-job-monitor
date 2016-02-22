@@ -16,13 +16,18 @@ class FailedJobNotifier
         $this->app = $app;
     }
 
+    public function getFailedJobClassUnserialized($event){
+
+        return get_class(unserialize($event->data['data']['command']));
+    }
+
     public function bootMailNotifications($schedule, $config)
     {
         if($config['frequency'] == 'immediately'){
 
             Queue::failing(function (JobFailed $event) use ($config)
             {
-                $failedJob = FailedJob::getLatest();
+                $failedJob = $this->getFailedJobClassUnserialized($event);
                 $this->sendMail($config, $failedJob);
             });
         }
@@ -38,7 +43,7 @@ class FailedJobNotifier
 
             Queue::failing(function (JobFailed $event) use ($config)
             {
-                $failedJob = FailedJob::getLatest();
+                $failedJob = $this->getFailedJobClassUnserialized($event);
                 $this->sendSlackMessage($config, $failedJob);
             });
         }
@@ -72,7 +77,7 @@ class FailedJobNotifier
 
     public function sendSlackMessage($config, $failedJobs)
     {
-        $message = 'Job failed: '.$failedJobs->command;
+        $message = 'Job failed: '.$failedJobs;
 
 //        \Log::info(config('slack'));
 

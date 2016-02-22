@@ -12,7 +12,7 @@
 </ul>
 @else
 <div>
-    {{ $failedJobs->command }}  - {{ $failedJobs->failed_at->toDateTimeString() }}
+    {{ $failedJobs }}  - {{ Carbon\Carbon::now() }}
 </div>
 
 @endif
