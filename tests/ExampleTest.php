@@ -1,16 +1,17 @@
 <?php
 
-namespace Spatie\Skeleton\Test;
+namespace Spatie\FailedJobsMonitor;
+
 
 class ExampleTest extends \PHPUnit_Framework_TestCase
 {
-
-
-    /**
-     * Test that true does in fact equal true
-     */
-    public function testTrueIsTrue()
+    public function setUp()
     {
-        $this->assertTrue(true);
+        parent::setUp();
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [FailedJobsMonitorServiceProvider::class];
     }
 }
