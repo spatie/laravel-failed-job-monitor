@@ -35,16 +35,16 @@ Next, you must publish the config file:
 php artisan vendor:publish --provider="Spatie\FailedJobsMonitor\FailedJobsMonitorServiceProvider"
 ```
 
-This is the content of the published file laravel-rss.php:
-You must change it and add your own info.
+You must change the published config file and add your own info.
 The services like mail or slack (the one you want to use here) must be configured.
 
 For mailing you can use Laravel Mailer.
 
-[How to configure mail service](https://laravel.com/docs/5.2/mail#sending-mail)
+[How to configure mail service.](https://laravel.com/docs/5.2/mail#sending-mail)
 
 If you want to use slack for this notifications, you must install 'maknz/slack' package.
-[Install and configure slack service](https://github.com/maknz/slack)
+
+[Install and configure slack service.](https://github.com/maknz/slack)
 
 
 ```php
