@@ -44,15 +44,18 @@ class InMemoryMailer implements Mailer
         });
     }
 
-    public function hasContent($content)
+    public function hasContent($content = null, $message)
     {
+        return str_contains($this->renderMessage($message), $content);
+    }
 
-        foreach($this->messages as $message)
-        {
-//            dd(view($message->template, $message->data)->render());
-            return str_contains(view($message->template, $message->data)->render(), $content);
+    public function getMessages()
+    {
+        return $this->messages;
+    }
 
-        }
-
+    protected function renderMessage(Message $message) : string
+    {
+        return view($message->template, $message->data)->render();
     }
 }

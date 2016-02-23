@@ -3,90 +3,33 @@
 namespace Spatie\FailedJobsMonitor;
 
 use Illuminate\Queue\Events\JobFailed;
-use Maknz\Slack\Client as Slack;
 use Queue;
-use Illuminate\Contracts\Mail\Mailer;
+use Spatie\FailedJobsMonitor\Channels\Channel;
 
 class FailedJobNotifier
 {
-    protected $mailer;
-    protected $slack;
 
-
-    public function __construct(Mailer $mailer)
+    public function notifyIfJobFailed(string $channel)
     {
-        $this->mailer   = $mailer;
-    }
+        $channel = $this->getChannelInstance($channel);
 
-    public function getFailedJobClassUnserialized($event){
-
-        return get_class(unserialize($event->data['data']['command']));
-    }
-
-    public function bootMailNotifications($schedule, $config)
-    {
-        if($config['frequency'] == 'immediately'){
-
-            Queue::failing(function (JobFailed $event) use ($config)
-            {
-                $failedJob = $this->getFailedJobClassUnserialized($event);
-                $this->sendMail($config, $failedJob);
-            });
-        }
-        else {
-            $schedule->command('failed-jobs:mail')->cron($config['frequency']);
-        }
-
-    }
-
-    public function bootSlackNotifications($schedule, $config)
-    {
-        if($config['frequency'] == 'immediately'){
-
-            Queue::failing(function (JobFailed $event) use ($config)
-            {
-                $failedJob = $this->getFailedJobClassUnserialized($event);
-                $this->sendSlackMessage($config, $failedJob);
-            });
-        }
-        else {
-            $schedule->command('failed-job:slack')->cron($config['frequency']);
-        }
-
-    }
-
-    public function sendFailedJobOverview($method)
-    {
-        $config = config('laravel-failed-jobs-monitor.notifications');
-        $failedJobs = FailedJob::getAll();
-        if($method == 'mail') $this->sendMail($config['mail'], $failedJobs);
-        if($method == 'slack') $this->sendSlackMessage($config['slack'], $failedJobs);
-
-
-    }
-
-    public function sendMail($config, $failedJob)
-    {
-        $this->mailer->send('laravel-failed-jobs-monitor::email',['failedJobs' => $failedJob], function ($m) use ($config) {
-
-            $m
-                ->from($config['from'])
-                ->to($config['to'])
-                ->subject('Some of your jobs failed.');
-
+        Queue::failing(function (JobFailed $event) use ($channel)
+        {
+            $channel->send($this->getJobName($event));
         });
+
     }
 
-    public function sendSlackMessage($config, $failedJobs)
+    protected function getJobName(JobFailed $event) : string
     {
-        $message = 'Job failed: '.$failedJobs;
-
-//        \Log::info(config('slack'));
-
-//        $this->slack
-//            ->to($config['channel'])
-//            ->withIcon(':'.$config['icon'].':')
-//            ->send($message);
-
+        return get_class(unserialize($event));
     }
+
+    protected function getChannelInstance(string $channel) : Channel
+    {
+        $className = '\Spatie\FailedJobsMonitor\Channels\\'.ucfirst($channel).'Channel';
+
+        return new $className;
+    }
+
 }

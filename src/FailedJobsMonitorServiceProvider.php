@@ -7,14 +7,12 @@ use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Support\ServiceProvider;
 use Queue;
 
-
 class FailedJobsMonitorServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
-     * @param Schedule $schedule
      */
-    public function boot(Schedule $schedule)
+    public function boot()
     {
         $this->publishes([
             __DIR__.'/../config/laravel-failed-jobs-monitor.php' => config_path('laravel-failed-jobs-monitor.php'),
@@ -28,21 +26,10 @@ class FailedJobsMonitorServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-failed-jobs-monitor');
 
-        $this->app->bind('command.failed-jobs:mail', FailedJobsMailCommand::class);
+        $this->sendToChannels();
 
-        $this->app->bind('command.failed-jobs:slack', FailedJobsSlackCommand::class);
-
-        $this->commands(['command.failed-jobs:mail', 'command.failed-jobs:slack']);
-
-        $this->bootNotifications($schedule);
     }
 
-    public function bootNotifications($schedule){
-
-        $config = config('laravel-failed-jobs-monitor.notifications');
-        if($config['mail']['frequency'] != 'none') $this->app->make(FailedJobNotifier::class)->bootMailNotifications($schedule, $config['mail']);
-        if($config['slack']['frequency'] != 'none') $this->app->make(FailedJobNotifier::class)->bootSlackNotifications($schedule, $config['slack']);
-    }
 
     /**
      * Register the application services.
@@ -50,19 +37,18 @@ class FailedJobsMonitorServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/laravel-failed-jobs-monitor.php', 'laravel-failed-jobs-monitor');
+
+        $this->app->singleton(FailedJobNotifier::class);
+
     }
 
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return string[]
-     */
-    public function provides()
+
+    public function sendToChannels()
     {
-        return [
-            'command.failed-jobs:mail',
-            'command.failed-jobs:slack'
-        ];
-    }
+        foreach(config('laravel-failed-jobs-monitor.channels') as $channel){
 
+            return $this->app->make(FailedJobNotifier::class)->notifyIfJobFailed($channel);
+        }
+
+    }
 }

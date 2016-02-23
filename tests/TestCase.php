@@ -51,7 +51,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         });
 
-        foreach (range(1,10) as $index){
+        foreach (range(1,4) as $index){
 
             FailedJob::create([
                 'connection'    =>  'beanstalkd',
@@ -60,6 +60,13 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
                 'failed_at'     =>  Carbon::now()
             ]);
         }
+
+        FailedJob::create([
+            'connection'    =>  'beanstalkd',
+            'queue'         =>  'default',
+            'payload'       =>  '',
+            'failed_at'     =>  Carbon::now()
+        ]);
 
     }
 
