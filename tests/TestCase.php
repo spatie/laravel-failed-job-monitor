@@ -31,6 +31,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'database' => $this->getTempDirectory().'/database.sqlite',
             'prefix' => '',
         ]);
+        $app['config']->set('queue.default', 'sync');
 
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
 
@@ -50,23 +51,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
 
         });
-
-        foreach (range(1,4) as $index){
-
-            FailedJob::create([
-                'connection'    =>  'beanstalkd',
-                'queue'         =>  'default',
-                'payload'       =>  '{"job":"Illuminate\\Queue\\CallQueuedHandler@call","data":{"command":"O:26:\"App\\Jobs\\SendReminderEmail\":5:{s:7:\"\u0000*\u0000user\";O:45:\"Illuminate\\Contracts\\Database\\ModelIdentifier\":2:{s:5:\"class\";s:15:\"App\\Models\\User\";s:2:\"id\";i:6;}s:6:\"\u0000*\u0000job\";N;s:10:\"connection\";N;s:5:\"queue\";N;s:5:\"delay\";N;}"}}',
-                'failed_at'     =>  Carbon::now()
-            ]);
-        }
-
-        FailedJob::create([
-            'connection'    =>  'beanstalkd',
-            'queue'         =>  'default',
-            'payload'       =>  '',
-            'failed_at'     =>  Carbon::now()
-        ]);
 
     }
 

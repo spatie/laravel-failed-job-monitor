@@ -2,7 +2,7 @@
 
 return [
 
-        'channels' => ['mail', 'slack'],
+        'channels' => ['mail'],
 
         'mail' => [
             'from' => 'your@email.com',

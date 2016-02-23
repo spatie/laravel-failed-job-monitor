@@ -17,7 +17,7 @@ class MailChannel implements Channel
     {
         $config = config('laravel-failed-jobs-monitor.mail');
 
-       $this->mailer->send('laravel-failed-jobs-monitor::email',['failedJob' => $failedJob], function ($m) use ($config) {
+        $this->mailer->send('laravel-failed-jobs-monitor::email',['failedJob' => $failedJob], function ($m) use ($config) {
 
             $m
                 ->from($config['from'])
