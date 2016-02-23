@@ -61,10 +61,8 @@ return [
 
 ## Usage
 
-Once the configurations are added to the config file and there is a failing job you will receive a notification via your chosen channel.
-
 ``` php
-
+Once the configurations are added to the config file and there is a failing job you will receive a notification via your chosen channel.
 ```
 
 ## Changelog
