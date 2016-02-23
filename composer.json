@@ -1,6 +1,6 @@
 {
     "name": "spatie/laravel-failed-jobs-monitor",
-    "description": "Sends mail and slack notifications about the failed jobs.",
+    "description": "Sends notifications if the queued job fails.",
     "keywords": [
         "spatie",
         "laravel-failed-jobs-monitor"

@@ -18,12 +18,6 @@ class FailedJobsMonitorServiceProvider extends ServiceProvider
             __DIR__.'/../config/laravel-failed-jobs-monitor.php' => config_path('laravel-failed-jobs-monitor.php'),
         ], 'config');
 
-        /*
-        $this->publishes([
-            __DIR__.'/../resources/views' => base_path('resources/views/vendor/skeleton'),
-        ], 'views');
-        */
-
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-failed-jobs-monitor');
 
         $this->registerChannels();

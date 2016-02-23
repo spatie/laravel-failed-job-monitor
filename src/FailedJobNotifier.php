@@ -3,7 +3,7 @@
 namespace Spatie\FailedJobsMonitor;
 
 use Illuminate\Queue\Events\JobFailed;
-use Illuminate\Queue\Queue;
+use Queue;
 use Spatie\FailedJobsMonitor\Channels\Channel;
 
 class FailedJobNotifier
