@@ -22,14 +22,14 @@ class FailedJobNotifier
 
     protected function getJobName(JobFailed $event) : string
     {
-        return get_class(unserialize($event));
+        return get_class(unserialize($event->data['data']['command']));
     }
 
     protected function getChannelInstance(string $channel) : Channel
     {
         $className = '\Spatie\FailedJobsMonitor\Channels\\'.ucfirst($channel).'Channel';
 
-        return new $className;
+        return app($className);
     }
 
 }

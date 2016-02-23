@@ -26,7 +26,7 @@ class FailedJobsMonitorServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-failed-jobs-monitor');
 
-        $this->sendToChannels();
+        $this->registerChannels();
 
     }
 
@@ -42,12 +42,11 @@ class FailedJobsMonitorServiceProvider extends ServiceProvider
 
     }
 
-
-    public function sendToChannels()
+    public function registerChannels()
     {
-        foreach(config('laravel-failed-jobs-monitor.channels') as $channel){
+        foreach(config('laravel-failed-jobs-monitor.channels') as $channel) {
 
-            return $this->app->make(FailedJobNotifier::class)->notifyIfJobFailed($channel);
+            $this->app->make(FailedJobNotifier::class)->notifyIfJobFailed($channel);
         }
 
     }
