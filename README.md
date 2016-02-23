@@ -61,7 +61,7 @@ return [
 
 ## Usage
 
-``` php
+```
 Once the configurations are added to the config file and there is a failing job you will receive a notification via your chosen channel.
 ```
 
