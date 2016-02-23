@@ -2,10 +2,8 @@
 
 namespace Spatie\FailedJobsMonitor;
 
-use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Support\ServiceProvider;
-use Queue;
+
 
 class FailedJobsMonitorServiceProvider extends ServiceProvider
 {

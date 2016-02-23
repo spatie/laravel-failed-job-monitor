@@ -3,7 +3,7 @@
 namespace Spatie\FailedJobsMonitor;
 
 use Illuminate\Queue\Events\JobFailed;
-use Queue;
+use Illuminate\Queue\QueueManager;
 use Spatie\FailedJobsMonitor\Channels\Channel;
 
 class FailedJobNotifier
@@ -13,7 +13,7 @@ class FailedJobNotifier
     {
         $channel = $this->getChannelInstance($channel);
 
-        Queue::failing(function (JobFailed $event) use ($channel)
+        app(QueueManager::class)->failing(function (JobFailed $event) use ($channel)
         {
             $channel->send($this->getJobName($event));
         });
