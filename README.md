@@ -7,7 +7,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-failed-jobs-monitor.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-failed-jobs-monitor)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-failed-jobs-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-jobs-monitor)
 
-This package sends mail and slack notifications about failed jobs.
+This package sends notifications if the queued job fails. Services for sending notifications can be specified in the config file.
 
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
@@ -35,11 +35,36 @@ Next, you must publish the config file:
 php artisan vendor:publish --provider="Spatie\FailedJobsMonitor\FailedJobsMonitorServiceProvider"
 ```
 
+This is the content of the published file laravel-rss.php:
+You must change it and add your own info.
+
+```php
+
+return [
+
+        'channels' => ['mail', 'slack'],
+
+        'mail' => [
+            'from' => 'your@email.com',
+            'to' => 'your@email.com',
+        ],
+
+        'slack' => [
+            'channel'  => '#failed-jobs',
+            'username' => 'Failed jobs bot',
+            'icon'     => ':robot:',
+        ],
+
+];
+
+```
+
 ## Usage
 
+Once the configurations are added to the config file and there is a failing job you will receive a notification via your chosen channel.
+
 ``` php
-$skeleton = new Spatie\Skeleton();
-echo $skeleton->echoPhrase('Hello, Spatie!');
+
 ```
 
 ## Changelog
