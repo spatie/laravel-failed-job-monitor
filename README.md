@@ -18,6 +18,23 @@ You can install the package via composer:
 $ composer require spatie/laravel-failed-jobs-monitor
 ```
 
+Next up, the service provider must be registered:
+
+```php
+// Laravel5: config/app.php
+'providers' => [
+    ...
+    Spatie\FailedJobsMonitor\FailedJobsMonitorServiceProvider::class,
+
+];
+```
+
+Next, you must publish the config file:
+
+```bash
+php artisan vendor:publish --provider="Spatie\FailedJobsMonitor\FailedJobsMonitorServiceProvider"
+```
+
 ## Usage
 
 ``` php
