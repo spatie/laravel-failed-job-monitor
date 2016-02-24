@@ -8,16 +8,13 @@ use Spatie\FailedJobsMonitor\Channels\Channel;
 
 class FailedJobNotifier
 {
-
     public function notifyIfJobFailed(string $channel)
     {
         $channel = $this->getChannelInstance($channel);
 
-        app(QueueManager::class)->failing(function (JobFailed $event) use ($channel)
-        {
+        app(QueueManager::class)->failing(function (JobFailed $event) use ($channel) {
             $channel->send($this->getJobName($event));
         });
-
     }
 
     protected function getJobName(JobFailed $event) : string
@@ -31,5 +28,4 @@ class FailedJobNotifier
 
         return app($className);
     }
-
 }

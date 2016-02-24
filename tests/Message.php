@@ -2,7 +2,6 @@
 
 namespace Spatie\FailedJobsMonitor\Test;
 
-
 class Message
 {
     public $template;
@@ -19,18 +18,21 @@ class Message
     public function to($email)
     {
         $this->to = $email;
+
         return $this;
     }
 
     public function from($email)
     {
         $this->to = $email;
+
         return $this;
     }
 
     public function subject($subject)
     {
         $this->subject = $subject;
+
         return $this;
     }
 }

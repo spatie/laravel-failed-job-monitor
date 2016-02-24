@@ -2,8 +2,6 @@
 
 namespace Spatie\FailedJobsMonitor\Test;
 
-use Carbon\Carbon;
-use Spatie\FailedJobsMonitor\FailedJob;
 use Spatie\FailedJobsMonitor\FailedJobsMonitorServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -16,15 +14,13 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->setUpDatabase($this->app);
     }
 
-
     protected function getPackageProviders($app)
     {
         return [FailedJobsMonitorServiceProvider::class];
     }
 
-    public function  getEnvironmentSetUp($app)
+    public function getEnvironmentSetUp($app)
     {
-
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [
             'driver' => 'sqlite',
@@ -34,9 +30,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $app['config']->set('queue.default', 'sync');
 
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
-
     }
-
 
     protected function setUpDatabase($app)
     {
@@ -49,9 +43,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             $table->longText('payload');
             $table->timestamp('failed_at');
 
-
         });
-
     }
 
     public function getTempDirectory($suffix = '')

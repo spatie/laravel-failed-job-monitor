@@ -10,9 +10,9 @@ return [
         ],
 
         'slack' => [
-            'channel'  => '#failed-jobs',
+            'channel' => '#failed-jobs',
             'username' => 'Failed jobs bot',
-            'icon'     => ':robot:',
+            'icon' => ':robot:',
         ],
 
 ];

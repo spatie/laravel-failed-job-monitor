@@ -24,7 +24,5 @@ class SlackChannel implements Channel
             ->to($config['channel'])
             ->withIcon(':'.$config['icon'].':')
             ->send($message);
-
     }
-
 }

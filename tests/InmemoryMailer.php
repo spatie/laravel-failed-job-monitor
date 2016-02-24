@@ -22,12 +22,10 @@ class InMemoryMailer implements Mailer
 
     public function raw($text, $callback)
     {
-
     }
 
     public function failures()
     {
-
     }
 
     public function hasMessageFor($email)

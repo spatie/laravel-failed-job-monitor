@@ -2,10 +2,8 @@
 
 namespace Spatie\FailedJobsMonitor\Test;
 
-
 class DummyEvent
 {
-
     /**
      * DummyEvent constructor.
      */

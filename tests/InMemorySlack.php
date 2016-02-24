@@ -10,5 +10,4 @@ class InMemorySlack implements SlackHandlerInterface
     {
         // TODO: Implement send() method.
     }
-
 }

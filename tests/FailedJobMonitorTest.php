@@ -19,7 +19,7 @@ class FailedJobMonitorTest extends TestCase
     {
         parent::setUp();
 
-        $this->mailer   = new InMemoryMailer();
+        $this->mailer = new InMemoryMailer();
         $this->notifier = new FailedJobNotifier();
 
         $this->app->instance('mailer', $this->mailer);
@@ -36,7 +36,6 @@ class FailedJobMonitorTest extends TestCase
 
         $this->assertTrue($this->mailer->hasMessageFor('your@email.com'));
     }
-
 
     /**
      * @test
@@ -61,8 +60,7 @@ class FailedJobMonitorTest extends TestCase
 
         $contains = false;
 
-        foreach($this->mailer->getMessages() as $message){
-
+        foreach ($this->mailer->getMessages() as $message) {
             if ($this->mailer->hasContent('DummyEvent', $message)) {
                 $contains = true;
             }
@@ -76,7 +74,6 @@ class FailedJobMonitorTest extends TestCase
      */
     public function slack_message_has_content()
     {
-
     }
 
     protected function getDummyJob() : Job
@@ -89,8 +86,8 @@ class FailedJobMonitorTest extends TestCase
         return event(new JobFailed('test', $this->getDummyJob(),
             [
                 'data' => [
-                    'command' => serialize(new DummyEvent)
-                ]
+                    'command' => serialize(new DummyEvent()),
+                ],
             ]
 
         ));
