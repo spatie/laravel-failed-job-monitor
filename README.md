@@ -7,7 +7,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-failed-jobs-monitor.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-failed-jobs-monitor)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-failed-jobs-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-jobs-monitor)
 
-This package sends notifications if the queued job fails. Services for sending notifications can be specified in the config file.
+This package sends notifications if a queued job fails. Services for sending notifications can be specified in the config file.
 
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
@@ -21,7 +21,6 @@ $ composer require spatie/laravel-failed-jobs-monitor
 Next up, the service provider must be registered:
 
 ```php
-// Laravel5: config/app.php
 'providers' => [
     ...
     Spatie\FailedJobsMonitor\FailedJobsMonitorServiceProvider::class,
@@ -39,30 +38,32 @@ You must change the published config file and add your own info.
 The services like mail or slack (the one you want to use here) must be configured.
 
 For mailing you can use Laravel Mailer.
-
-[How to configure mail service.](https://laravel.com/docs/5.2/mail#sending-mail)
+If you would like to find out how to configure and start using the Mailer follow this link: https://laravel.com/docs/5.2/mail#sending-mail
 
 If you want to use slack for this notifications, you must install 'maknz/slack' package.
-
-[Install and configure slack service.](https://github.com/maknz/slack)
+You can find this package and documentation about it on git https://github.com/maknz/slack or on https://packagist.org/packages/maknz/slack.
 
 
 ```php
-
 return [
 
-        'channels' => ['mail', 'slack'],
+         // The services that will be used to receive the notifications when a queued job fails must be specified in the channels array.
+                'channels' => ['mail'],
 
-        'mail' => [
-            'from' => 'your@email.com',
-            'to' => 'your@email.com',
-        ],
+                //these are mail notifications configurations
+                'mail' => [
+                    'from' => 'your@email.com',
+                    'to' => 'your@email.com',
+                ],
 
-        'slack' => [
-            'channel'  => '#failed-jobs',
-            'username' => 'Failed jobs bot',
-            'icon'     => ':robot:',
-        ],
+                //these are slack notifications configurations
+                'slack' => [
+                    'channel' => '#failed-jobs',
+                    'username' => 'Failed jobs bot',
+                    'icon' => ':robot:',
+                ],
+
+                // if needed more services can be added here
 
 ];
 
@@ -70,7 +71,7 @@ return [
 
 ## Usage
 
-Once the configurations are added to the config file and there is a failing job you will receive a notification via your chosen channel.
+Once the configurations are added to the config file and there is a failing job you will receive a notification via your chosen channels.
 
 
 ## Changelog

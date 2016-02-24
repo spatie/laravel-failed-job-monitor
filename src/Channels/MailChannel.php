@@ -13,13 +13,13 @@ class MailChannel implements Channel
         $this->mailer = $mailer;
     }
 
-    public function send(string $failedJob)
+    public function send(string $failedJobClassName)
     {
         $config = config('laravel-failed-jobs-monitor.mail');
 
-        $this->mailer->send('laravel-failed-jobs-monitor::email', ['failedJob' => $failedJob], function ($m) use ($config) {
+        $this->mailer->send('laravel-failed-jobs-monitor::email', ['failedJobClassName' => $failedJobClassName], function ($message) use ($config) {
 
-            $m
+            $message
                 ->from($config['from'])
                 ->to($config['to'])
                 ->subject('Job failed.');

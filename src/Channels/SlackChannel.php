@@ -13,12 +13,10 @@ class SlackChannel implements Channel
         $this->slack = $slack;
     }
 
-    public function send(string $failedJob)
+    public function send(string $failedJobClassName)
     {
         $config = config('laravel-failed-jobs-monitor.slack');
-        $message = 'Job failed: '.$failedJob;
-
-//        \Log::info('test');
+        $message = 'Job failed: '.$failedJobClassName;
 
         $this->slack
             ->to($config['channel'])

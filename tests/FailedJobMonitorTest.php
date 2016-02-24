@@ -25,9 +25,7 @@ class FailedJobMonitorTest extends TestCase
         $this->app->instance('mailer', $this->mailer);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function message_has_a_specified_mail_address()
     {
         $this->notifier->notifyIfJobFailed('mail');
@@ -37,9 +35,7 @@ class FailedJobMonitorTest extends TestCase
         $this->assertTrue($this->mailer->hasMessageFor('your@email.com'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function message_has_a_specified_subject()
     {
         $this->notifier->notifyIfJobFailed('mail');
@@ -49,9 +45,7 @@ class FailedJobMonitorTest extends TestCase
         $this->assertTrue($this->mailer->hasMessageWithSubject('Job failed.'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function message_has_content()
     {
         $this->notifier->notifyIfJobFailed('mail');
@@ -69,19 +63,13 @@ class FailedJobMonitorTest extends TestCase
         $this->assertTrue($contains);
     }
 
-    /**
-     * @test
-     */
-    public function slack_message_has_content()
-    {
-    }
 
     protected function getDummyJob() : Job
     {
         return new SyncJob($this->app, '');
     }
 
-    protected function generateEvent() :array
+    protected function generateEvent() : array
     {
         return event(new JobFailed('test', $this->getDummyJob(),
             [

@@ -13,7 +13,8 @@ class FailedJobNotifier
         $channel = $this->getChannelInstance($channel);
 
         app(QueueManager::class)->failing(function (JobFailed $event) use ($channel) {
-            $channel->send($this->getJobName($event));
+
+            $channel->send($this->getJobName($event), $event->job);
         });
     }
 

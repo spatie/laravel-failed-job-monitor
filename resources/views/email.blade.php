@@ -1,8 +1,11 @@
-
 <h1>
-    Failed job found!!
+    One of the queued jobs failed !
 </h1>
 
 <div>
-    {{ $failedJob }}
+    Here is the failed job class name: {{ $failedJobClassName }}
+</div>
+<div>
+
+    {{--//Todo: details: payload --}}
 </div>
