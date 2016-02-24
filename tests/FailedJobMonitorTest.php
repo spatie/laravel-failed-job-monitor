@@ -1,18 +1,18 @@
 <?php
 
-namespace Spatie\FailedJobsMonitor\Test;
+namespace Spatie\FailedJobMonitor\Test;
 
 use Illuminate\Contracts\Queue\Job;
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Queue\Jobs\SyncJob;
-use Spatie\FailedJobsMonitor\FailedJobNotifier;
+use Spatie\FailedJobMonitor\FailedJobNotifier;
 
 class FailedJobMonitorTest extends TestCase
 {
-    /** @var \Spatie\FailedJobsMonitor\Test\InMemoryMailer */
+    /** @var \Spatie\FailedJobMonitor\Test\InMemoryMailer */
     protected $mailer;
 
-    /** @var  \Spatie\FailedJobsMonitor\FailedJobNotifier */
+    /** @var  \Spatie\FailedJobMonitor\FailedJobNotifier */
     protected $notifier;
 
     public function setUp()

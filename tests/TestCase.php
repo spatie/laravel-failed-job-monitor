@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\FailedJobsMonitor\Test;
+namespace Spatie\FailedJobMonitor\Test;
 
-use Spatie\FailedJobsMonitor\FailedJobsMonitorServiceProvider;
+use Spatie\FailedJobMonitor\FailedJobMonitorServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
@@ -10,7 +10,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function getPackageProviders($app)
     {
-        return [FailedJobsMonitorServiceProvider::class];
+        return [FailedJobMonitorServiceProvider::class];
     }
 
     public function getEnvironmentSetUp($app)

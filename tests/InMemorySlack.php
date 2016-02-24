@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\FailedJobsMonitor\Test;
+namespace Spatie\FailedJobMonitor\Test;
 
-use Spatie\FailedJobsMonitor\SlackHandlerInterface;
+use Spatie\FailedJobMonitor\SlackHandlerInterface;
 
 class InMemorySlack implements SlackHandlerInterface
 {

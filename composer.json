@@ -1,11 +1,11 @@
 {
-    "name": "spatie/laravel-failed-jobs-monitor",
+    "name": "spatie/laravel-failed-job-monitor",
     "description": "Sends notifications if the queued job fails.",
     "keywords": [
         "spatie",
-        "laravel-failed-jobs-monitor"
+        "laravel-failed-job-monitor"
     ],
-    "homepage": "https://github.com/spatie/laravel-failed-jobs-monitor",
+    "homepage": "https://github.com/spatie/laravel-failed-job-monitor",
     "license": "MIT",
     "authors": [
         {
@@ -29,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\FailedJobsMonitor\\": "src"
+            "Spatie\\FailedJobMonitor\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\FailedJobsMonitor\\Test\\": "tests"
+            "Spatie\\FailedJobMonitor\\Test\\": "tests"
         }
     },
     "scripts": {

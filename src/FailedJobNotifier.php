@@ -1,20 +1,20 @@
 <?php
 
-namespace Spatie\FailedJobsMonitor;
+namespace Spatie\FailedJobMonitor;
 
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Queue\QueueManager;
-use Spatie\FailedJobsMonitor\Channels\Channel;
+use Spatie\FailedJobMonitor\Senders\Sender;
 
 class FailedJobNotifier
 {
-    public function notifyIfJobFailed(string $channel)
+    public function notifyIfJobFailed(string $sender)
     {
-        $channel = $this->getChannelInstance($channel);
+        $sender = $this->getChannelInstance($sender);
 
-        app(QueueManager::class)->failing(function (JobFailed $event) use ($channel) {
+        app(QueueManager::class)->failing(function (JobFailed $event) use ($sender) {
 
-            $channel->send($this->getJobName($event), $event->data['data']['command']);
+            $sender->send($this->getJobName($event), $event->data['data']['command']);
         });
     }
 
@@ -23,9 +23,9 @@ class FailedJobNotifier
         return get_class(unserialize($event->data['data']['command']));
     }
 
-    protected function getChannelInstance(string $channel) : Channel
+    protected function getChannelInstance(string $sender) : Sender
     {
-        $className = '\Spatie\FailedJobsMonitor\Channels\\'.ucfirst($channel).'Channel';
+        $className = '\Spatie\FailedJobMonitor\Senders\\'.ucfirst($sender).'Sender';
 
         return app($className);
     }

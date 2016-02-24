@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\FailedJobsMonitor\Channels;
+namespace Spatie\FailedJobMonitor\Senders;
 
-interface Channel
+interface Sender
 {
     public function send(string $failedJobClassName,  string $failedJobData);
 }

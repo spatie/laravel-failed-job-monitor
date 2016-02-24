@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\FailedJobsMonitor\Channels;
+namespace Spatie\FailedJobMonitor\Senders;
 
 use Maknz\Slack\Client as Slack;
 
-class SlackChannel implements Channel
+class SlackSender implements Sender
 {
     protected $slack;
 
@@ -18,8 +18,14 @@ class SlackChannel implements Channel
         $config = config('laravel-failed-jobs-monitor.slack');
         $message = 'Job failed: '.$failedJobClassName;
 
+        $attachment = new Attachment([
+            'fallback' => 'Some fallback text',
+            'text' => 'The attachment text'
+        ]);
+
         $this->slack
             ->to($config['channel'])
+            ->attach($attachment)
             ->withIcon(':'.$config['icon'].':')
             ->send($message);
     }

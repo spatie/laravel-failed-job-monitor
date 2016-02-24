@@ -1,11 +1,11 @@
-# laravel-failed-jobs-monitor
+# laravel-failed-job-monitor
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-failed-jobs-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-jobs-monitor)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-failed-job-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-job-monitor)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/spatie/laravel-failed-jobs-monitor/master.svg?style=flat-square)](https://travis-ci.org/spatie/laravel-failed-jobs-monitor)
+[![Build Status](https://img.shields.io/travis/spatie/laravel-failed-job-monitor/master.svg?style=flat-square)](https://travis-ci.org/spatie/laravel-failed-job-monitor)
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/f2aaa07e-2960-4ed5-a130-626e990fef3f.svg?style=flat-square)](https://insight.sensiolabs.com/projects/f2aaa07e-2960-4ed5-a130-626e990fef3f)
-[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-failed-jobs-monitor.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-failed-jobs-monitor)
-[![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-failed-jobs-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-jobs-monitor)
+[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-failed-job-monitor.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-failed-job-monitor)
+[![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-failed-job-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-job-monitor)
 
 This package sends notifications if a queued job fails. Services for sending notifications can be specified in the config file.
 
@@ -15,7 +15,7 @@ Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview 
 
 You can install the package via composer:
 ``` bash
-$ composer require spatie/laravel-failed-jobs-monitor
+$ composer require spatie/laravel-failed-job-monitor
 ```
 
 Next up, the service provider must be registered:
@@ -23,7 +23,7 @@ Next up, the service provider must be registered:
 ```php
 'providers' => [
     ...
-    Spatie\FailedJobsMonitor\FailedJobsMonitorServiceProvider::class,
+    Spatie\FailedJobMonitor\FailedJobMonitorServiceProvider::class,
 
 ];
 ```
@@ -31,7 +31,7 @@ Next up, the service provider must be registered:
 Next, you must publish the config file:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\FailedJobsMonitor\FailedJobsMonitorServiceProvider"
+php artisan vendor:publish --provider="Spatie\FailedJobMonitor\FailedJobMonitorServiceProvider"
 ```
 
 You must change the published config file and add your own info.
@@ -47,8 +47,8 @@ You can find this package and the documentation about it on [github] (https://gi
 ```php
 return [
 
-         // The services that will be used to receive the notifications when a queued job fails must be specified in the channels array.
-                'channels' => ['mail'],
+         // The services that will be used to receive the notifications when a queued job fails must be specified in the senders array.
+                'senders' => ['mail'],
 
                 //these are mail notifications configurations
                 'mail' => [
@@ -58,8 +58,8 @@ return [
 
                 //these are slack notifications configurations
                 'slack' => [
-                    'channel' => '#failed-jobs',
-                    'username' => 'Failed jobs bot',
+                    'channel' => '#failed-job',
+                    'username' => 'Failed Job Bot',
                     'icon' => ':robot:',
                 ],
 
@@ -71,7 +71,7 @@ return [
 
 ## Usage
 
-Once the configurations are added to the config file and there is a failing job you will receive a notification via your chosen channels.
+Once the configurations are added to the config file and there is a failing job you will receive a notification via your chosen senders.
 
 
 ## Changelog

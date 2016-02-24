@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\FailedJobsMonitor\Channels;
+namespace Spatie\FailedJobMonitor\Senders;
 
 use Illuminate\Contracts\Mail\Mailer;
 
-class MailChannel implements Channel
+class MailSender implements Sender
 {
     protected $mailer;
 
@@ -17,7 +17,7 @@ class MailChannel implements Channel
     {
         $config = config('laravel-failed-jobs-monitor.mail');
 
-        $this->mailer->send('laravel-failed-jobs-monitor::email', ['failedJobClassName' => $failedJobClassName, 'details' => $failedJobData], function ($message) use ($config) {
+        $this->mailer->send('laravel-failed-jobs-monitor::email', ['failedJobClassName' => $failedJobClassName, 'failedJobData' => $failedJobData], function ($message) use ($config) {
 
             $message
                 ->from($config['from'])

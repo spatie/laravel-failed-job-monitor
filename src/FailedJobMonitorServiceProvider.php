@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\FailedJobsMonitor;
+namespace Spatie\FailedJobMonitor;
 
 use Illuminate\Support\ServiceProvider;
 
-class FailedJobsMonitorServiceProvider extends ServiceProvider
+class FailedJobMonitorServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -32,8 +32,8 @@ class FailedJobsMonitorServiceProvider extends ServiceProvider
 
     public function registerChannels()
     {
-        foreach (config('laravel-failed-jobs-monitor.channels') as $channel) {
-            $this->app->make(FailedJobNotifier::class)->notifyIfJobFailed($channel);
+        foreach (config('laravel-failed-jobs-monitor.senders') as $sender) {
+            $this->app->make(FailedJobNotifier::class)->notifyIfJobFailed($sender);
         }
     }
 }

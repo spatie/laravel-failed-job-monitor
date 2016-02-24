@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\FailedJobsMonitor\Test;
+namespace Spatie\FailedJobMonitor\Test;
 
 class DummyEvent
 {

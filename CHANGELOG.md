@@ -1,6 +1,6 @@
 # Changelog
 
-All Notable changes to laravel-failed-jobs-monitor will be documented in this file
+All Notable changes to laravel-failed-job-monitor will be documented in this file
 
 ## NEXT - YYYY-MM-DD
 

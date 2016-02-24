@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\FailedJobsMonitor\Test;
+namespace Spatie\FailedJobMonitor\Test;
 
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Support\Collection;
