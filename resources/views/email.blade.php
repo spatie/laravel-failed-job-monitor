@@ -7,5 +7,6 @@
 </div>
 <div>
 
-    {{--//Todo: details: payload --}}
+    The failed job details:
+    {{ print_r($failedJobData) }}
 </div>
