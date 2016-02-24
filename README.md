@@ -41,7 +41,7 @@ For mailing you can use Laravel Mailer.
 If you would like to find out how to configure and start using the Mailer follow this link: https://laravel.com/docs/5.2/mail#sending-mail
 
 If you want to use slack for this notifications, you must install 'maknz/slack' package.
-You can find this package and documentation about it on git https://github.com/maknz/slack or on https://packagist.org/packages/maknz/slack.
+You can find this package and the documentation about it on git https://github.com/maknz/slack or on https://packagist.org/packages/maknz/slack.
 
 
 ```php
