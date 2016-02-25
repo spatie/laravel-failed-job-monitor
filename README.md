@@ -41,7 +41,7 @@ This is the contents of the configuration file. Most options are self-explanator
 return [
 
     /**
-     * If a jobs fails we will send you a notification via these channels.
+     * If a job fails we will send you a notification via these channels.
      * You can use "mail", "slack" or both.
      */
     'senders' => ['mail'],
