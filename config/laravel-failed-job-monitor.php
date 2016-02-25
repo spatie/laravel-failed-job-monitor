@@ -10,7 +10,7 @@ return [
          *
          **/
 
-        'senders' => ['mail', 'slack'],
+        'senders' => ['mail'],
 
         //these are mail notifications configurations
         'mail' => [
