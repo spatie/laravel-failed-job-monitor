@@ -17,7 +17,7 @@ class SlackSender implements Sender
     public function send(string $failedJobClassName, string $failedJobData)
     {
         $config = config('laravel-failed-job-monitor.slack');
-        $message = 'Failed job found in '.url();
+        $message = 'Failed job found in '.url('');
 
         $attachment = new Attachment([
             'title' => 'The failing job class name is: '.$failedJobClassName,
@@ -27,8 +27,9 @@ class SlackSender implements Sender
 
         $this->slack
             ->to($config['channel'])
+            ->from($config['username'])
             ->attach($attachment)
-            ->withIcon(':'.$config['icon'].':')
+            ->withIcon($config['icon'])
             ->send($message);
     }
 }

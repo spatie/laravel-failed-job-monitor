@@ -20,9 +20,9 @@ return [
 
         //these are slack notifications configurations
         'slack' => [
-            'channel' => '#failed-job',
+            'channel' => '#failed-jobs',
             'username' => 'Failed Job Bot',
-            'icon' => ':robot:',
+            'icon' => ':robot_face:',
         ],
 
         // if needed more services can be added here
