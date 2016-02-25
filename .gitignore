@@ -2,5 +2,3 @@ build
 composer.lock
 docs
 vendor
-.idea/
-/tests/temp
