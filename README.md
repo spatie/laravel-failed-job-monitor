@@ -67,7 +67,7 @@ return [
 Be sure to replace the placeholder values with your own info.
 
 The `mail`-sender uses [Laravel's built in mail capabilities](https://laravel.com/docs/5.2/mail#sending-mail).
-If you want be notified via Slack, you must [install `maknz/slack` package](https://github.com/maknz/slack).
+If you want be notified via Slack, you must [install the `maknz/slack` package](https://github.com/maknz/slack).
 
 ## Usage
 
