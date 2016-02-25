@@ -17,7 +17,9 @@ class InMemoryMailer implements Mailer
     public function send($template, array $data, $callback)
     {
         $message = new Message($template, $data);
+
         $callback($message);
+
         $this->messages[] = $message;
     }
 
