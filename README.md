@@ -64,11 +64,10 @@ return [
 
 ```
 
-The `mail`-sender uses [Laravel's built in mail capabilities](https://laravel.com/docs/5.2/mail#sending-mail).
-You must change the published config file and add your own info.
-The services like mail or slack (the one you want to use here) must be configured.
+Be sure to replace the placeholder values with your own info.
 
-If you want to use slack for this notifications, you must [install `maknz/slack` package]((https://github.com/maknz/slack)).
+The `mail`-sender uses [Laravel's built in mail capabilities](https://laravel.com/docs/5.2/mail#sending-mail).
+If you want be notified via Slac, you must [install `maknz/slack` package]((https://github.com/maknz/slack)).
 
 ## Usage
 
