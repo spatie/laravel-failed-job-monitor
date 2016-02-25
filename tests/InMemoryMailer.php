@@ -5,7 +5,7 @@ namespace Spatie\FailedJobMonitor\Test;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Support\Collection;
 
-class InmemoryMailer implements Mailer
+class InMemoryMailer implements Mailer
 {
     private $messages;
 

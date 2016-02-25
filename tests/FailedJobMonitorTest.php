@@ -26,7 +26,7 @@ class FailedJobMonitorTest extends TestCase
     }
 
     /** @test */
-    public function message_has_a_specified_mail_address()
+    public function it_can_send_a_mail_to_the_configured_mail_address()
     {
         $this->notifier->notifyIfJobFailed('mail');
 
@@ -36,17 +36,17 @@ class FailedJobMonitorTest extends TestCase
     }
 
     /** @test */
-    public function message_has_a_specified_subject()
+    public function it_can_send_a_mail_with_a_subject()
     {
         $this->notifier->notifyIfJobFailed('mail');
 
         $this->generateEvent();
 
-        $this->assertTrue($this->mailer->hasMessageWithSubject('Job failed.'));
+        $this->assertTrue($this->mailer->hasMessageWithSubject('A queued job has failed on http://localhost'));
     }
 
     /** @test */
-    public function message_has_content()
+    public function it_can_send_message_with_content()
     {
         $this->notifier->notifyIfJobFailed('mail');
 

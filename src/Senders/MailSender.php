@@ -21,7 +21,7 @@ class MailSender implements Sender
 
         $data = [
             'failedJobClassName' => $failedJobClassName,
-            'failedJobData' => $failedJobData
+            'failedJobData' => $failedJobData,
         ];
 
         $this->mailer->send($viewName, $data, function ($message) use ($config) {
