@@ -2,7 +2,14 @@
 
 return [
 
-        // The services that will be used to receive the notifications when a queued job fails must be specified in the channels array.
+        /**
+         *
+         * The services that are wanted to be used to receive the notifications when a queued job fails
+         * must be specified in the senders array.
+         * More services can be added.
+         *
+         **/
+
         'senders' => ['mail', 'slack'],
 
         //these are mail notifications configurations
