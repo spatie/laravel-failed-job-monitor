@@ -17,13 +17,18 @@ class MailSender implements Sender
     {
         $config = config('laravel-failed-job-monitor.mail');
 
-        $this->mailer->send('laravel-failed-job-monitor::email', ['failedJobClassName' => $failedJobClassName, 'failedJobData' => $failedJobData], function ($message) use ($config) {
+        $viewName = 'laravel-failed-job-monitor::email';
 
+        $data = [
+            'failedJobClassName' => $failedJobClassName,
+            'failedJobData' => $failedJobData
+        ];
+
+        $this->mailer->send($viewName, $data, function ($message) use ($config) {
             $message
                 ->from($config['from'])
                 ->to($config['to'])
-                ->subject('Job failed.');
-
+                ->subject('A queued job has failed on '.config('app.url'));
         });
     }
 }

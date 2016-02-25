@@ -12,7 +12,7 @@ class FailedJobMonitorTest extends TestCase
     /** @var \Spatie\FailedJobMonitor\Test\InMemoryMailer */
     protected $mailer;
 
-    /** @var  \Spatie\FailedJobMonitor\FailedJobNotifier */
+    /** @var \Spatie\FailedJobMonitor\FailedJobNotifier */
     protected $notifier;
 
     public function setUp()

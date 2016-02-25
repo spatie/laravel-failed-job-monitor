@@ -1,4 +1,4 @@
-# laravel-failed-job-monitor
+# Get notified when a queued job fails
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-failed-job-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-job-monitor)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
@@ -7,15 +7,16 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-failed-job-monitor.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-failed-job-monitor)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-failed-job-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-job-monitor)
 
-This package sends notifications if a queued job fails. Services for sending notifications can be specified in the config file.
+This package sends notifications if a queued job fails. Out of the box it can send a notification via mail and/or Slack.
 
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
-## Install
+## Installation
 
 You can install the package via composer:
+
 ``` bash
-$ composer require spatie/laravel-failed-job-monitor
+composer require spatie/laravel-failed-job-monitor
 ```
 
 Next up, the service provider must be registered:
@@ -34,52 +35,44 @@ Next, you must publish the config file:
 php artisan vendor:publish --provider="Spatie\FailedJobMonitor\FailedJobMonitorServiceProvider"
 ```
 
-You must change the published config file and add your own info.
-The services like mail or slack (the one you want to use here) must be configured.
+This is the contents of the configuration file. Most options are self-explanatory.
 
-For mailing you can use Laravel Mailer.
-If you would like to find out how to configure and start using the Mailer follow this link: https://laravel.com/docs/5.2/mail#sending-mail
-
-If you want to use slack for this notifications, you must install 'maknz/slack' package.
-You can find this package and the documentation about it on [github] (https://github.com/maknz/slack) or on [packagist](https://packagist.org/packages/maknz/slack).
-
-This is the content of the configuration file, that must be updated:
 ```php
 return [
 
-        /**
-         *
-         * The services that are wanted to be used to receive the notifications when a queued job fails
-         * must be specified in the senders array.
-         * More services can be added.
-         *
-         **/
+    /**
+     * If a jobs fails we will send you a notification via these channels.
+     * You can use "mail", "slack" or both.
+     */
+    'senders' => ['mail'],
 
-        'senders' => ['mail', 'slack'],
+    'mail' => [
+        'from' => 'your@email.com',
+        'to' => 'your@email.com',
+    ],
 
-        //these are mail notifications configurations
-        'mail' => [
-            'from' => 'your@email.com',
-            'to' => 'your@email.com',
-        ],
-
-        //these are slack notifications configurations
-        'slack' => [
-            'channel' => '#failed-jobs',
-            'username' => 'Failed Job Bot',
-            'icon' => ':robot_face:',
-        ],
-
-        // if needed more services can be added here
-
+    /**
+     * If want to send notifications to slack you must
+     * install the "maknz/slack" package
+     */
+    'slack' => [
+        'channel' => '#failed-jobs',
+        'username' => 'Failed Job Bot',
+        'icon' => ':robot_face:',
+    ],
 ];
 
 ```
 
+The `mail`-sender uses [Laravel's built in mail capabilities](https://laravel.com/docs/5.2/mail#sending-mail).
+You must change the published config file and add your own info.
+The services like mail or slack (the one you want to use here) must be configured.
+
+If you want to use slack for this notifications, you must [install `maknz/slack` package]((https://github.com/maknz/slack)).
+
 ## Usage
 
-Once the configurations are added to the config file and there is a failing job you will receive a notification via your chosen senders.
-
+If you configured the package correctly, you're done. You'll receive a notification when a queued job fails.
 
 ## Changelog
 
@@ -88,7 +81,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 ## Testing
 
 ``` bash
-$ composer test
+composer test
 ```
 
 ## Contributing

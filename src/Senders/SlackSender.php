@@ -17,10 +17,10 @@ class SlackSender implements Sender
     public function send(string $failedJobClassName, string $failedJobData)
     {
         $config = config('laravel-failed-job-monitor.slack');
-        $message = 'Failed job found in '.url('');
+        $message = 'A queued job has failed on '.config('app.url');
 
         $attachment = new Attachment([
-            'title' => 'The failing job class name is: '.$failedJobClassName,
+            'title' => "The failing job class name: {$failedJobClassName}",
             'text' => $failedJobData,
             'color' => 'danger',
         ]);
