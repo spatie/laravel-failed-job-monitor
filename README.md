@@ -25,7 +25,7 @@ Next up, the service provider must be registered:
 'providers' => [
     ...
     Spatie\FailedJobMonitor\FailedJobMonitorServiceProvider::class,
-
+    ...
 ];
 ```
 
