@@ -43,27 +43,34 @@ If you would like to find out how to configure and start using the Mailer follow
 If you want to use slack for this notifications, you must install 'maknz/slack' package.
 You can find this package and the documentation about it on [github] (https://github.com/maknz/slack) or on [packagist](https://packagist.org/packages/maknz/slack).
 
-
+This is the content of the configuration file, that must be updated:
 ```php
 return [
 
-         // The services that will be used to receive the notifications when a queued job fails must be specified in the senders array.
-                'senders' => ['mail'],
+        /**
+         *
+         * The services that are wanted to be used to receive the notifications when a queued job fails
+         * must be specified in the senders array.
+         * More services can be added.
+         *
+         **/
 
-                //these are mail notifications configurations
-                'mail' => [
-                    'from' => 'your@email.com',
-                    'to' => 'your@email.com',
-                ],
+        'senders' => ['mail', 'slack'],
 
-                //these are slack notifications configurations
-                'slack' => [
-                    'channel' => '#failed-job',
-                    'username' => 'Failed Job Bot',
-                    'icon' => ':robot:',
-                ],
+        //these are mail notifications configurations
+        'mail' => [
+            'from' => 'your@email.com',
+            'to' => 'your@email.com',
+        ],
 
-                // if needed more services can be added here
+        //these are slack notifications configurations
+        'slack' => [
+            'channel' => '#failed-job',
+            'username' => 'Failed Job Bot',
+            'icon' => ':robot:',
+        ],
+
+        // if needed more services can be added here
 
 ];
 
