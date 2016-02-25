@@ -15,9 +15,9 @@ class MailSender implements Sender
 
     public function send(string $failedJobClassName, string $failedJobData)
     {
-        $config = config('laravel-failed-jobs-monitor.mail');
+        $config = config('laravel-failed-job-monitor.mail');
 
-        $this->mailer->send('laravel-failed-jobs-monitor::email', ['failedJobClassName' => $failedJobClassName, 'failedJobData' => $failedJobData], function ($message) use ($config) {
+        $this->mailer->send('laravel-failed-job-monitor::email', ['failedJobClassName' => $failedJobClassName, 'failedJobData' => $failedJobData], function ($message) use ($config) {
 
             $message
                 ->from($config['from'])

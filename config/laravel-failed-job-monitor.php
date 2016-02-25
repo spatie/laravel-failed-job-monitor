@@ -3,7 +3,7 @@
 return [
 
         // The services that will be used to receive the notifications when a queued job fails must be specified in the channels array.
-        'senders' => ['mail'],
+        'senders' => ['mail', 'slack'],
 
         //these are mail notifications configurations
         'mail' => [
@@ -13,7 +13,7 @@ return [
 
         //these are slack notifications configurations
         'slack' => [
-            'channel' => '#failed-jobs',
+            'channel' => '#failed-job',
             'username' => 'Failed Job Bot',
             'icon' => ':robot:',
         ],

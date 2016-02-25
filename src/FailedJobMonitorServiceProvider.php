@@ -12,12 +12,12 @@ class FailedJobMonitorServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/laravel-failed-jobs-monitor.php' => config_path('laravel-failed-jobs-monitor.php'),
+            __DIR__ . '/../config/laravel-failed-job-monitor.php' => config_path('laravel-failed-job-monitor.php'),
         ], 'config');
 
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-failed-jobs-monitor');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-failed-job-monitor');
 
-        $this->registerChannels();
+        $this->registerSenders();
     }
 
     /**
@@ -25,14 +25,14 @@ class FailedJobMonitorServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/laravel-failed-jobs-monitor.php', 'laravel-failed-jobs-monitor');
+        $this->mergeConfigFrom(__DIR__ . '/../config/laravel-failed-job-monitor.php', 'laravel-failed-job-monitor');
 
         $this->app->singleton(FailedJobNotifier::class);
     }
 
-    public function registerChannels()
+    public function registerSenders()
     {
-        foreach (config('laravel-failed-jobs-monitor.senders') as $sender) {
+        foreach (config('laravel-failed-job-monitor.senders') as $sender) {
             $this->app->make(FailedJobNotifier::class)->notifyIfJobFailed($sender);
         }
     }

@@ -8,5 +8,5 @@
 <div>
 
     The failed job details:
-    {{ print_r($failedJobData) }}
+    {{ $failedJobData }}
 </div>
