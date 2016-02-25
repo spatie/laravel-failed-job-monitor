@@ -63,7 +63,6 @@ class FailedJobMonitorTest extends TestCase
         $this->assertTrue($contains);
     }
 
-
     protected function getDummyJob() : Job
     {
         return new SyncJob($this->app, '');

@@ -21,8 +21,8 @@ class SlackSender implements Sender
 
         $attachment = new Attachment([
             'title' => 'The failing job class name is: '.$failedJobClassName,
-            'text'  => $failedJobData,
-            'color' => 'danger'
+            'text' => $failedJobData,
+            'color' => 'danger',
         ]);
 
         $this->slack

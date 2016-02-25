@@ -3,11 +3,9 @@
 namespace Spatie\FailedJobMonitor\Test;
 
 use Spatie\FailedJobMonitor\FailedJobMonitorServiceProvider;
-use Illuminate\Database\Schema\Blueprint;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
-
     protected function getPackageProviders($app)
     {
         return [FailedJobMonitorServiceProvider::class];
@@ -19,5 +17,4 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
     }
-
 }
