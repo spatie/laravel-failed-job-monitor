@@ -3,7 +3,7 @@
 return [
 
     /**
-     * If a jobs fails we will send you a notification via these channels.
+     * If a jobs fail we will send you a notification via these channels.
      * You can use "mail", "slack" or both.
      */
     'senders' => ['mail'],
