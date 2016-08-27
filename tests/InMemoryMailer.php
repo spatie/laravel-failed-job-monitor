@@ -14,9 +14,9 @@ class InMemoryMailer implements Mailer
         $this->messages = collect();
     }
 
-    public function send($template, array $data, $callback)
+    public function send($view, array $data = [], $callback = null)
     {
-        $message = new Message($template, $data);
+        $message = new Message($view, $data);
 
         $callback($message);
 
@@ -33,14 +33,14 @@ class InMemoryMailer implements Mailer
 
     public function hasMessageFor(string $email) : bool
     {
-        return $this->messages->contains(function ($i, $message) use ($email) {
+        return $this->messages->contains(function ($message) use ($email) {
             return $message->to === $email;
         });
     }
 
     public function hasMessageWithSubject(string $subject) : bool
     {
-        return $this->messages->contains(function ($i, $message) use ($subject) {
+        return $this->messages->contains(function ($message) use ($subject) {
             return $message->subject === $subject;
         });
     }
