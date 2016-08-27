@@ -2,7 +2,7 @@
 
 return [
 
-    /**
+    /*
      * If a jobs fail we will send you a notification via these channels.
      * You can use "mail", "slack" or both.
      */
@@ -13,7 +13,7 @@ return [
         'to' => 'your@email.com',
     ],
 
-    /**
+    /*
      * If want to send notifications to slack you must
      * install the "maknz/slack" package
      */
