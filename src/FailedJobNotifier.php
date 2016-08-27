@@ -14,7 +14,7 @@ class FailedJobNotifier
 
         app(QueueManager::class)->failing(function (JobFailed $event) use ($sender) {
 
-            $sender->send(json_encode($event->data));
+            $sender->send(json_encode($event->job->payload()));
         });
     }
 
