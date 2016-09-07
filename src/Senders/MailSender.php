@@ -21,7 +21,7 @@ class MailSender implements Sender
             $message
                 ->from($config['from'])
                 ->to($config['to'])
-                ->subject('A queued job has failed on ' . config('app.url'));
+                ->subject('A queued job has failed on '.config('app.url'));
         });
     }
 }
