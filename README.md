@@ -48,6 +48,7 @@ return [
     'senders' => ['mail'],
 
     'mail' => [
+        'view' => 'laravel-failed-job-monitor::email',
         'from' => 'your@email.com',
         'to' => 'your@email.com',
     ],
