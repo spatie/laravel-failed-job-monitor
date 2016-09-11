@@ -2,6 +2,10 @@
 
 All Notable changes to laravel-failed-job-monitor will be documented in this file
 
+## 1.1.0 - 2016-09-11
+
+- the used view can now be customized
+
 ## 1.0.3 - 2016-08-27
 
 - upped the required Laravel version to 5.3
