@@ -10,6 +10,7 @@ class User extends Model
 {
     use Notifiable;
     public $table = 'spatie_failed_job_monitor_test_users';
+
     public function scopeCanBeNotifiedAboutFailedJobs(Builder $builder)
     {
         return $builder->where('id', 1);

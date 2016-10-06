@@ -7,7 +7,6 @@ use Illuminate\Queue\Jobs\SyncJob;
 
 class TestQueueManager
 {
-
     protected $container;
 
     public function __construct($container)
@@ -63,13 +62,14 @@ class TestQueueManager
     public function generateJobForEventListener($eventId) : Job
     {
         return $this->make('Illuminate\Events\CallQueuedHandler@call', [
-            'class' => 'Spatie\FailedJobMonitor\Test\Dummy\Listener', 'method' => 'handle', 'data' => serialize(['id'=>$eventId]),
+            'class' => 'Spatie\FailedJobMonitor\Test\Dummy\Listener', 'method' => 'handle', 'data' => serialize(['id' => $eventId]),
         ]);
     }
 
     public function generateJob($jobId, $jobName = 'Spatie\FailedJobMonitor\Test\Dummy\Data\Job') : Job
     {
         $job = new $jobName($jobId);
+
         return $this->make($job);
     }
 
@@ -77,5 +77,4 @@ class TestQueueManager
     {
         return $this->resolveJob($this->createPayload($job, $data, $queue), $queue);
     }
-
 }

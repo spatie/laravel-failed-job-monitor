@@ -41,10 +41,11 @@ class Notification extends NotificationBase
             ->line(trans('laravel-failed-job-monitor::mail.job_info', ['job' => $this->failed->job->resolveName()]))
             ->line(trans('laravel-failed-job-monitor::mail.attachment'))
             ->attachData($this->buildException($this->failed->exception),
-                'failed_job_' . Carbon::now()->format('Y-m-d h:i:s') . '.txt')
+                'failed_job_'.Carbon::now()->format('Y-m-d h:i:s').'.txt')
             ->attachData($this->failed->job->getRawBody(),
-                'payload_' . Carbon::now()->format('Y-m-d h:i:s') . '.txt');
+                'payload_'.Carbon::now()->format('Y-m-d h:i:s').'.txt');
     }
+
     /**
      * Get the Slack representation of the notification.
      *
@@ -56,14 +57,14 @@ class Notification extends NotificationBase
         return (new SlackMessage)
             ->error()
             ->content(trans('laravel-failed-job-monitor::slack.intro'))
-            ->attachment(function (SlackAttachment $attachment){
+            ->attachment(function (SlackAttachment $attachment) {
                 $attachment->title(trans('laravel-failed-job-monitor::slack.job_info'))
                     ->content($this->failed->job->resolveName());
-            })->attachment(function (SlackAttachment $attachment){
-                $attachment->title('failed_job_' . Carbon::now()->format('Y-m-d h:i:s') . '.txt')
+            })->attachment(function (SlackAttachment $attachment) {
+                $attachment->title('failed_job_'.Carbon::now()->format('Y-m-d h:i:s').'.txt')
                     ->content($this->buildException($this->failed->exception));
-            })->attachment(function (SlackAttachment $attachment){
-                $attachment->title('payload_' . Carbon::now()->format('Y-m-d h:i:s') . '.txt')
+            })->attachment(function (SlackAttachment $attachment) {
+                $attachment->title('payload_'.Carbon::now()->format('Y-m-d h:i:s').'.txt')
                     ->content($this->failed->job->getRawBody());
             });
     }
@@ -74,13 +75,11 @@ class Notification extends NotificationBase
         while ($e !== null) {
             $response .= sprintf('%s: %s (%s:%s)', get_class($e), $e->getMessage(), $e->getFile(), $e->getLine());
             $response .= PHP_EOL;
-            $response .= $e->getTraceAsString() . PHP_EOL;
-            $response .= '---------------------------' . PHP_EOL . PHP_EOL;
+            $response .= $e->getTraceAsString().PHP_EOL;
+            $response .= '---------------------------'.PHP_EOL.PHP_EOL;
             $e = $e->getPrevious();
         }
 
         return $response;
     }
-
-
 }

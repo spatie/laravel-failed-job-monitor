@@ -31,7 +31,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
                 'notifiable'   => \Spatie\FailedJobMonitor\Test\Dummy\Models\User::class,
                 'notification' => \Spatie\FailedJobMonitor\Notification::class,
                 'via'          => ['mail'],
-                'filter' => 'scopeCanBeNotifiedAboutFailedAnotherJobs'
+                'filter' => 'scopeCanBeNotifiedAboutFailedAnotherJobs',
             ],
             'Spatie\FailedJobMonitor\Test\Dummy\Data\AnotherJob' => [
                 'notifiable'   => \Spatie\FailedJobMonitor\Test\Dummy\Models\User::class,
@@ -54,7 +54,5 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         ];
 
         $app['config']->set('laravel-failed-job-monitor', $config);
-
-
     }
 }

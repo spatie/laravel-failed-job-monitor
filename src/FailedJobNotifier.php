@@ -10,7 +10,6 @@ use Spatie\FailedJobMonitor\Exceptions\InvalidNotificationException;
 
 class FailedJobNotifier
 {
-
     public function register()
     {
         $mapping = collect(config('laravel-failed-job-monitor'));
@@ -37,15 +36,15 @@ class FailedJobNotifier
         $notificationClass = $map['notification'];
         $filterMethod = array_get($map, 'filter', 'canBeNotifiedAboutFailedJobs');
 
-        if (!method_exists($notifiable, 'scope' . ucfirst($filterMethod))) {
+        if (! method_exists($notifiable, 'scope'.ucfirst($filterMethod))) {
             throw new InvalidNotifiableException(
                 sprintf('Class %s have scope%s method', $map['notifiable'], ucfirst($filterMethod))
             );
         }
 
-        if (!$this->isValidNotificationClass($notificationClass)) {
+        if (! $this->isValidNotificationClass($notificationClass)) {
             throw new InvalidNotificationException(
-                "Class {$notificationClass} must extend " . Notification::class
+                "Class {$notificationClass} must extend ".Notification::class
             );
         }
 

@@ -13,9 +13,8 @@ class ServiceProvider extends ServiceProviderBase
     {
         parent::boot();
 
-        if($this->app->environment('testing'))
-        {
-            $this->loadMigrationsFrom(__DIR__ . '/../migrations');
+        if ($this->app->environment('testing')) {
+            $this->loadMigrationsFrom(__DIR__.'/../migrations');
         }
     }
 }

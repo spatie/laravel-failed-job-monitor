@@ -15,12 +15,11 @@ use Spatie\FailedJobMonitor\Test\Dummy\TestQueueManager;
 use Spatie\FailedJobMonitor\Test\Dummy\Notifications\AnotherNotification;
 use Spatie\FailedJobMonitor\Test\Dummy\Notifications\TeamNotification;
 
-
 class FailedJobMonitorTest extends TestCase
 {
     use DatabaseMigrations;
 
-    /** @var  TestQueueManager */
+    /** @var TestQueueManager */
     protected $manager;
 
     public function setUp()
@@ -91,10 +90,6 @@ class FailedJobMonitorTest extends TestCase
             \Notification::assertNotSentTo($team, AnotherNotification::class);
             \Notification::assertNotSentTo($team, TeamNotification::class);
         });
-
-
-
-
     }
 
     /** @test */
@@ -125,9 +120,7 @@ class FailedJobMonitorTest extends TestCase
             \Notification::assertNotSentTo($team, AnotherNotification::class);
             \Notification::assertNotSentTo($team, TeamNotification::class);
         });
-
     }
-
 
     /** @test */
     public function it_can_send_notification_when_job_crashed_to_additional_channel_using_different_notification_class()
@@ -164,7 +157,6 @@ class FailedJobMonitorTest extends TestCase
     /** @test */
     public function it_can_send_notification_when_job_crashed_to_additional_channel_using_different_notifiable_class()
     {
-
         $users = $this->createUsers(2);
         $teams = $this->createTeams(2);
         $job = $this->manager->generateJob(random_int(1, 100), TeamJob::class);
@@ -191,13 +183,12 @@ class FailedJobMonitorTest extends TestCase
         );
 
         \Notification::assertNotSentTo($teams[1], TeamNotification::class);
-
-
     }
 
     protected function fireFailed($event)
     {
         $e = new TestException();
+
         return event(new JobFailed('test', $event, $e));
     }
 
@@ -213,6 +204,7 @@ class FailedJobMonitorTest extends TestCase
 
         return $data;
     }
+
     protected function createTeams($number = 1)
     {
         $data = collect(range(1, $number))->map(function () {
