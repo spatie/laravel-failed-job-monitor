@@ -1,9 +1,0 @@
-{
-  "job": "Illuminate\\Queue\\CallQueuedHandler@call",
-  "data": {
-    "commandName": "App\\Jobs\\SendReminderEmail",
-    "command": "O:26:\"App\\Jobs\\SendReminderEmail\":4:{s:6:\"\u0000*\u0000job\";N;s:10:\"connection\";N;s:5:\"queue\";N;s:5:\"delay\";N;}"
-  },
-  "id": "XgLkDYb0umF6SG03jTrdOoLzQICg167C",
-  "attempts": 1
-}

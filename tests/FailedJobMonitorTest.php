@@ -26,7 +26,7 @@ class FailedJobMonitorTest extends TestCase
     {
         parent::setUp();
         $this->manager = new TestQueueManager($this->app);
-        \Notification::fake();
+        \Illuminate\Support\Facades\Notification::fake();
     }
 
     /** @test */
@@ -38,7 +38,7 @@ class FailedJobMonitorTest extends TestCase
         $job = $this->manager->generateJobForEventListener(random_int(1, 100));
         $this->fireFailed($job);
 
-        \Notification::assertSentTo(
+        \Illuminate\Support\Facades\Notification::assertSentTo(
             $users[0],
             Notification::class,
             function (Notification $notification, $channels) use ($job) {
@@ -46,17 +46,17 @@ class FailedJobMonitorTest extends TestCase
             }
         );
 
-        \Notification::assertNotSentTo($users[1], Notification::class);
+        \Illuminate\Support\Facades\Notification::assertNotSentTo($users[1], Notification::class);
 
         $users->each(function ($user) {
-            \Notification::assertNotSentTo($user, AnotherNotification::class);
-            \Notification::assertNotSentTo($user, TeamNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, AnotherNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, TeamNotification::class);
         });
 
         $teams->each(function ($team) {
-            \Notification::assertNotSentTo($team, Notification::class);
-            \Notification::assertNotSentTo($team, AnotherNotification::class);
-            \Notification::assertNotSentTo($team, TeamNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, Notification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, AnotherNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, TeamNotification::class);
         });
     }
 
@@ -68,7 +68,7 @@ class FailedJobMonitorTest extends TestCase
         $job = $this->manager->generateJob(random_int(1, 100));
         $this->fireFailed($job);
 
-        \Notification::assertSentTo(
+        \Illuminate\Support\Facades\Notification::assertSentTo(
             $users[0],
             Notification::class,
             function (Notification $notification, $channels) use ($job) {
@@ -76,19 +76,19 @@ class FailedJobMonitorTest extends TestCase
             }
         );
 
-        \Notification::assertNotSentTo(
+        \Illuminate\Support\Facades\Notification::assertNotSentTo(
             $users[1], Notification::class
         );
 
         $users->each(function ($user) {
-            \Notification::assertNotSentTo($user, AnotherNotification::class);
-            \Notification::assertNotSentTo($user, TeamNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, AnotherNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, TeamNotification::class);
         });
 
         $teams->each(function ($team) {
-            \Notification::assertNotSentTo($team, Notification::class);
-            \Notification::assertNotSentTo($team, AnotherNotification::class);
-            \Notification::assertNotSentTo($team, TeamNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, Notification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, AnotherNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, TeamNotification::class);
         });
     }
 
@@ -100,25 +100,23 @@ class FailedJobMonitorTest extends TestCase
         $job = $this->manager->generateJob(random_int(1, 100), SecondJob::class);
         $this->fireFailed($job);
 
-        \Notification::assertNotSentTo($users[0], Notification::class);
+        $users->each(function ($user) use ($job) {
+            \Illuminate\Support\Facades\Notification::assertSentTo(
+                $user,
+                Notification::class,
+                function (Notification $notification, $channels) use ($job) {
+                    return $notification->failed->job->getRawBody() === $job->getRawBody();
+                }
+            );
 
-        \Notification::assertSentTo(
-            $users[1],
-            Notification::class,
-            function (Notification $notification, $channels) use ($job) {
-                return $notification->failed->job->getRawBody() === $job->getRawBody();
-            }
-        );
-
-        $users->each(function ($user) {
-            \Notification::assertNotSentTo($user, AnotherNotification::class);
-            \Notification::assertNotSentTo($user, TeamNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, AnotherNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, TeamNotification::class);
         });
 
         $teams->each(function ($team) {
-            \Notification::assertNotSentTo($team, Notification::class);
-            \Notification::assertNotSentTo($team, AnotherNotification::class);
-            \Notification::assertNotSentTo($team, TeamNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, Notification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, AnotherNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, TeamNotification::class);
         });
     }
 
@@ -130,7 +128,18 @@ class FailedJobMonitorTest extends TestCase
         $job = $this->manager->generateJob(random_int(1, 100), AnotherJob::class);
         $this->fireFailed($job);
 
-        \Notification::assertSentTo(
+        \Illuminate\Support\Facades\Notification::assertSentTo(
+            $users[0],
+            Notification::class,
+            function (Notification $notification, $channels) use ($job) {
+                return $notification->failed->job->getRawBody() === $job->getRawBody();
+            }
+        );
+
+        \Illuminate\Support\Facades\Notification::assertNotSentTo($users[1], TeamNotification::class);
+
+
+        \Illuminate\Support\Facades\Notification::assertSentTo(
             $users[0],
             AnotherNotification::class,
             function (Notification $notification, $channels) use ($job) {
@@ -138,19 +147,18 @@ class FailedJobMonitorTest extends TestCase
             }
         );
 
-        \Notification::assertNotSentTo(
+        \Illuminate\Support\Facades\Notification::assertNotSentTo(
             $users[1], AnotherNotification::class
         );
 
         $users->each(function ($user) {
-            \Notification::assertNotSentTo($user, Notification::class);
-            \Notification::assertNotSentTo($user, TeamNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, TeamNotification::class);
         });
 
         $teams->each(function ($team) {
-            \Notification::assertNotSentTo($team, Notification::class);
-            \Notification::assertNotSentTo($team, AnotherNotification::class);
-            \Notification::assertNotSentTo($team, TeamNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, Notification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, AnotherNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, TeamNotification::class);
         });
     }
 
@@ -162,19 +170,28 @@ class FailedJobMonitorTest extends TestCase
         $job = $this->manager->generateJob(random_int(1, 100), TeamJob::class);
         $this->fireFailed($job);
 
+        \Illuminate\Support\Facades\Notification::assertSentTo(
+            $users[0],
+            Notification::class,
+            function (Notification $notification, $channels) use ($job) {
+                return $notification->failed->job->getRawBody() === $job->getRawBody();
+            }
+        );
+
+        \Illuminate\Support\Facades\Notification::assertNotSentTo($users[1], TeamNotification::class);
+
 
         $users->each(function ($user) {
-            \Notification::assertNotSentTo($user, Notification::class);
-            \Notification::assertNotSentTo($user, AnotherNotification::class);
-            \Notification::assertNotSentTo($user, TeamNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, AnotherNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, TeamNotification::class);
         });
 
         $teams->each(function ($team) {
-            \Notification::assertNotSentTo($team, Notification::class);
-            \Notification::assertNotSentTo($team, AnotherNotification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, Notification::class);
+            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, AnotherNotification::class);
         });
 
-        \Notification::assertSentTo(
+        \Illuminate\Support\Facades\Notification::assertSentTo(
             $teams[0],
             TeamNotification::class,
             function (Notification $notification, $channels) use ($job) {
@@ -182,7 +199,7 @@ class FailedJobMonitorTest extends TestCase
             }
         );
 
-        \Notification::assertNotSentTo($teams[1], TeamNotification::class);
+        \Illuminate\Support\Facades\Notification::assertNotSentTo($teams[1], TeamNotification::class);
     }
 
     protected function fireFailed($event)
