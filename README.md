@@ -25,7 +25,7 @@ Next up, the service provider must be registered:
 ```php
 'providers' => [
     ...
-    Spatie\FailedJobMonitor\FailedJobMonitorServiceProvider::class,
+    Spatie\FailedJobMonitor\ServiceProvider::class,
     ...
 ];
 ```
@@ -33,43 +33,60 @@ Next up, the service provider must be registered:
 Next, you must publish the config file:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\FailedJobMonitor\FailedJobMonitorServiceProvider"
+php artisan vendor:publish --provider="Spatie\FailedJobMonitor\ServiceProvider"
 ```
 
-This is the contents of the configuration file. Most options are self-explanatory.
+This is the contents of the default configuration file. 
 
 ```php
 return [
-
-    /**
-     * If a job fails we will send you a notification via these channels.
-     * You can use "mail", "slack" or both.
-     */
-    'senders' => ['mail'],
-
-    'mail' => [
-        'view' => 'laravel-failed-job-monitor::email',
-        'from' => 'your@email.com',
-        'to' => 'your@email.com',
-    ],
-
-    /**
-     * If want to send notifications to slack you must
-     * install the "maknz/slack" package
-     */
-    'slack' => [
-        'channel' => '#failed-jobs',
-        'username' => 'Failed Job Bot',
-        'icon' => ':robot_face:',
+    '*' => [
+        'notifiable' => \App\User::class,
+        'notification' => \Spatie\FailedJobMonitor\Notification::class,
+        'via' => ['mail'],
+        //'filter' => 'canBeNotifiedAboutFailedJobs'
     ],
 ];
 
 ```
 
-Be sure to replace the placeholder values with your own info.
+Define `scopeCanBeNotifiedAboutFailedJobs` method in your `\App\User` class. If you don't have`\App\User` class, you can change `notifiable` property to yours correct value 
 
-The `mail`-sender uses [Laravel's built in mail capabilities](https://laravel.com/docs/5.2/mail#sending-mail).
-If you want be notified via Slack, you must [install the `maknz/slack` package](https://github.com/maknz/slack).
+## Configuration
+
+### Defining rules for jobs
+By default Laravel Failed Job Monitor has only one rule with name `*`. This rule is applying to every failed job.
+
+If you have some job and want notify about fail not only developers but someone else, you can define rule for it: 
+
+```php
+return [
+    \App\Jobs\ImportantJob::class => [
+        'notifiable' => \App\User::class,
+        'notification' => \App\Notifications\ImportantJonFailed::class,
+        'via' => ['mail', 'slack'],
+        'filter' => 'canBeNotifiedAboutFailedImportantJobs'
+    ],
+    '*' => [
+        'notifiable' => \App\User::class,
+        'notification' => \Spatie\FailedJobMonitor\Notification::class,
+        'via' => ['mail'],
+        //'filter' => 'canBeNotifiedAboutFailedJobs'
+    ],
+];
+```
+
+### Configuring rule for job
+Each rule contains next properties:
+- `notifiable` - notifiable class name like users, team, department and e.t.c
+- `notification` - class name of Notification instance. Must extends `\Spatie\FailedJobMonitor\Notification` class
+- `via` - set channels to use it can be skipped if you overwrite via method on notification
+- `filter` - name of scope that will be applied to `notifiable` to get all records that should receive notification. By default: `canBeNotifiedAboutFailedJobs`. If you set `developers` as value, you should define `scopeDevelopers` function in notifiable record. More information about scopes you can find in [official Laravel documentation](https://laravel.com/docs/5.3/eloquent#query-scopes)
+
+### Adding new channels
+By default this package are support only `mail` and `slack` drivers (you can find more info about that driver in [official Laravel documentation](https://laravel.com/docs/5.3/notifications)).
+ 
+If you want more channels you can create your own Notification class that will extend `\Spatie\FailedJobMonitor\Notification` and set it in `notification` property in any required rule
 
 ## Postcardware
 
