@@ -81,6 +81,6 @@ class Notification extends IlluminateNotification
     {
         $exceptionClass = get_class($exception);
 
-        return "{$exceptionClass} : {$exception->getMessage()} ({$exception->getFile()}:{$exception->getLine()})".PHP_EOL.$exception->getTraceAsString() ;
+        return "{$exceptionClass} : {$exception->getMessage()} ({$exception->getFile()}:{$exception->getLine()})".PHP_EOL.$exception->getTraceAsString();
     }
 }
