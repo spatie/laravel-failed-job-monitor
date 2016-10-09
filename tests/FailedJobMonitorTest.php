@@ -101,5 +101,4 @@ class FailedJobMonitorTest extends TestCase
 
         return event(new JobFailed('test', $event, $e));
     }
-
 }

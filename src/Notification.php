@@ -40,9 +40,9 @@ class Notification extends NotificationBase
             ->line(trans('laravel-failed-job-monitor::mail.job_info', ['job' => $this->event->job->resolveName()]))
             ->line(trans('laravel-failed-job-monitor::mail.attachment'))
             ->attachData($this->buildException($this->event->exception),
-                'failed_job_' . Carbon::now()->format('Y-m-d h:i:s') . '.txt')
+                'failed_job_'.Carbon::now()->format('Y-m-d h:i:s').'.txt')
             ->attachData($this->event->job->getRawBody(),
-                'payload_' . Carbon::now()->format('Y-m-d h:i:s') . '.txt');
+                'payload_'.Carbon::now()->format('Y-m-d h:i:s').'.txt');
     }
 
     /**
@@ -60,10 +60,10 @@ class Notification extends NotificationBase
                 $attachment->title(trans('laravel-failed-job-monitor::slack.job_info'))
                     ->content($this->event->job->resolveName());
             })->attachment(function (SlackAttachment $attachment) {
-                $attachment->title('failed_job_' . Carbon::now()->format('Y-m-d h:i:s') . '.txt')
+                $attachment->title('failed_job_'.Carbon::now()->format('Y-m-d h:i:s').'.txt')
                     ->content($this->buildException($this->event->exception));
             })->attachment(function (SlackAttachment $attachment) {
-                $attachment->title('payload_' . Carbon::now()->format('Y-m-d h:i:s') . '.txt')
+                $attachment->title('payload_'.Carbon::now()->format('Y-m-d h:i:s').'.txt')
                     ->content($this->event->job->getRawBody());
             });
     }
@@ -79,7 +79,7 @@ class Notification extends NotificationBase
         );
 
         $response .= PHP_EOL;
-        $response .= $exception->getTraceAsString() . PHP_EOL;
+        $response .= $exception->getTraceAsString().PHP_EOL;
 
         return $response;
     }
