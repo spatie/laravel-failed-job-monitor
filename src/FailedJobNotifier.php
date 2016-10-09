@@ -14,9 +14,11 @@ class FailedJobNotifier
             $notifiable = app(config('laravel-failed-job-monitor.notifiable'));
             $notification = app(config('laravel-failed-job-monitor.notification'))->setEvent($event);
 
+            $notificationClass = get_class($notification);
+
             if (! $this->isValidNotificationClass($notification)) {
                 throw new InvalidNotificationException(
-                    "Class {get_class($notification)} must extend ".Notification::class
+                    "Class {$notificationClass} must extend ".Notification::class
                 );
             }
 
@@ -26,6 +28,14 @@ class FailedJobNotifier
 
     public function isValidNotificationClass($notification):bool
     {
-        return get_class($notification) === Notification::class || is_subclass_of($notification, Notification::class);
+        if (get_class($notification) === Notification::class) {
+            return true;
+        }
+
+        if (is_subclass_of($notification, Notification::class)) {
+            return true;
+        }
+
+        return false;
     }
 }

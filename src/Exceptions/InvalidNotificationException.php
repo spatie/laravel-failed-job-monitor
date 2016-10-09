@@ -2,6 +2,8 @@
 
 namespace Spatie\FailedJobMonitor\Exceptions;
 
-class InvalidNotificationException extends \Exception
+use Exception;
+
+class InvalidNotificationException extends Exception
 {
 }

@@ -16,7 +16,9 @@ class FailedJobMonitorServiceProvider extends IlluminateServiceProvider
         ], 'config');
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-failed-job-monitor');
+
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel-failed-job-monitor');
+
         $this->registerSenders();
     }
 

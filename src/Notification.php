@@ -3,14 +3,16 @@
 namespace Spatie\FailedJobMonitor;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
-use Illuminate\Notifications\Notification as NotificationBase;
+use Illuminate\Notifications\Notification as IlluminateNotification;
 
-class Notification extends NotificationBase
+class Notification extends IlluminateNotification
 {
+    /** @var \Illuminate\Queue\Events\JobFailed */
     protected $event;
 
     public function via($notifiable)
@@ -18,7 +20,7 @@ class Notification extends NotificationBase
         return config('laravel-failed-job-monitor.channels');
     }
 
-    public function setEvent(JobFailed $event)
+    public function setEvent(JobFailed $event): self
     {
         $this->event = $event;
 
@@ -29,9 +31,10 @@ class Notification extends NotificationBase
      * Get the mail representation of the notification.
      *
      * @param  mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
             ->subject(trans('laravel-failed-job-monitor::mail.subject'))
@@ -49,9 +52,10 @@ class Notification extends NotificationBase
      * Get the Slack representation of the notification.
      *
      * @param  mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\SlackMessage
      */
-    public function toSlack($notifiable)
+    public function toSlack($notifiable): SlackMessage
     {
         return (new SlackMessage)
             ->error()
@@ -73,19 +77,10 @@ class Notification extends NotificationBase
             });
     }
 
-    protected function buildException(\Exception $exception)
+    protected function buildException(Exception $exception)
     {
-        $response = sprintf(
-            '%s: %s (%s:%s)',
-            get_class($exception),
-            $exception->getMessage(),
-            $exception->getFile(),
-            $exception->getLine()
-        );
+        $exceptionClass = get_class($exception);
 
-        $response .= PHP_EOL;
-        $response .= $exception->getTraceAsString().PHP_EOL;
-
-        return $response;
+        return "{$exceptionClass} : {$exception->getMessage()} ({$exception->getFile()}:{$exception->getLine()})".PHP_EOL.$exception->getTraceAsString() ;
     }
 }
