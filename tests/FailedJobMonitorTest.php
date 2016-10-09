@@ -2,81 +2,103 @@
 
 namespace Spatie\FailedJobMonitor\Test;
 
-use Illuminate\Contracts\Queue\Job;
 use Illuminate\Queue\Events\JobFailed;
-use Illuminate\Queue\Jobs\SyncJob;
-use Spatie\FailedJobMonitor\FailedJobNotifier;
+use Spatie\FailedJobMonitor\Notifiable;
+use Spatie\FailedJobMonitor\Notification;
+use Spatie\FailedJobMonitor\Test\Dummy\TestException;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Spatie\FailedJobMonitor\Test\Dummy\TestQueueManager;
+use Illuminate\Support\Facades\Notification as NotificationFacade;
+use Spatie\FailedJobMonitor\Test\Dummy\Notifications\AnotherNotifiable;
+use Spatie\FailedJobMonitor\Test\Dummy\Notifications\AnotherNotification;
 
 class FailedJobMonitorTest extends TestCase
 {
-    /** @var \Spatie\FailedJobMonitor\Test\InMemoryMailer */
-    protected $mailer;
+    use DatabaseMigrations;
 
-    /** @var \Spatie\FailedJobMonitor\FailedJobNotifier */
-    protected $notifier;
+    /** @var TestQueueManager */
+    protected $manager;
 
     public function setUp()
     {
         parent::setUp();
-
-        $this->mailer = new InMemoryMailer();
-        $this->notifier = new FailedJobNotifier();
-
-        $this->app->instance('mailer', $this->mailer);
+        $this->manager = new TestQueueManager($this->app);
+        NotificationFacade::fake();
     }
 
     /** @test */
-    public function it_can_send_a_mail_to_the_configured_mail_address()
+    public function it_can_send_notification_when_event_failed()
     {
-        $this->notifier->notifyIfJobFailed('mail');
+        $job = $this->manager->generateJobForEventListener(random_int(1, 100));
+        $this->fireFailed($job);
 
-        $this->generateEvent();
-
-        $this->assertTrue($this->mailer->hasMessageFor('your@email.com'));
+        NotificationFacade::assertSentTo(new Notifiable(), Notification::class);
     }
 
     /** @test */
-    public function it_can_send_a_mail_with_a_subject()
+    public function it_can_send_notification_when_job_failed()
     {
-        $this->notifier->notifyIfJobFailed('mail');
+        $job = $this->manager->generateJob(random_int(1, 100));
+        $this->fireFailed($job);
 
-        $this->generateEvent();
-
-        $this->assertTrue($this->mailer->hasMessageWithSubject('A queued job has failed on http://localhost'));
+        NotificationFacade::assertSentTo(new Notifiable(), Notification::class);
     }
 
     /** @test */
-    public function it_can_send_message_with_content()
+    public function it_can_send_notification_when_job_failed_to_different_notifiable()
     {
-        $this->notifier->notifyIfJobFailed('mail');
+        $this->app['config']->set('laravel-failed-job-monitor.notifiable', AnotherNotifiable::class);
 
-        $this->generateEvent();
+        $job = $this->manager->generateJob(random_int(1, 100));
+        $this->fireFailed($job);
 
-        $contains = false;
+        NotificationFacade::assertSentTo(new AnotherNotifiable(), Notification::class);
+    }
 
-        foreach ($this->mailer->getMessages() as $message) {
-            if ($this->mailer->hasContent('DummyEvent', $message)) {
-                $contains = true;
+    /** @test */
+    public function it_can_send_notification_when_job_failed_to_different_notification()
+    {
+        $this->app['config']->set('laravel-failed-job-monitor.notification', AnotherNotification::class);
+
+        $job = $this->manager->generateJob(random_int(1, 100));
+        $this->fireFailed($job);
+
+        NotificationFacade::assertSentTo(new Notifiable(), AnotherNotification::class);
+    }
+
+    /** @test */
+    public function it_can_send_notification_when_job_failed_to_different_channels()
+    {
+        $this->app['config']->set('laravel-failed-job-monitor.channels', ['mail', 'slack']);
+
+        $job = $this->manager->generateJob(random_int(1, 100));
+        $this->fireFailed($job);
+
+        NotificationFacade::assertSentTo(
+            new Notifiable(),
+            Notification::class,
+            function ($notification, $channels) {
+                return count(array_diff($channels, ['mail', 'slack'])) === 0;
             }
-        }
-
-        $this->assertTrue($contains);
+        );
     }
 
-    protected function getDummyJob() : Job
+    /** @test */
+    public function it_can_take_default_channels_info_from_config()
     {
-        return new SyncJob($this->app, '');
+        $this->app['config']->set('laravel-failed-job-monitor.routes.mail.to', 'johndoe@example.com');
+        $this->app['config']->set('laravel-failed-job-monitor.routes.slack.webhook_url', 'SLACK_URL');
+
+        $notifiable = new Notifiable();
+
+        $this->assertEquals('SLACK_URL', $notifiable->routeNotificationForSlack());
+        $this->assertEquals('johndoe@example.com', $notifiable->routeNotificationForMail());
     }
 
-    protected function generateEvent() : array
+    protected function fireFailed($event)
     {
-        return event(new JobFailed('test', $this->getDummyJob(),
-            [
-                'data' => [
-                    'command' => serialize(new DummyEvent()),
-                ],
-            ]
+        $e = new TestException();
 
-        ));
+        return event(new JobFailed('test', $event, $e));
     }
 }

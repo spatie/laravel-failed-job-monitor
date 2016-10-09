@@ -2,9 +2,9 @@
 
 namespace Spatie\FailedJobMonitor;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
-class FailedJobMonitorServiceProvider extends ServiceProvider
+class FailedJobMonitorServiceProvider extends IlluminateServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -16,7 +16,7 @@ class FailedJobMonitorServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'laravel-failed-job-monitor');
-
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'laravel-failed-job-monitor');
         $this->registerSenders();
     }
 
@@ -32,8 +32,6 @@ class FailedJobMonitorServiceProvider extends ServiceProvider
 
     public function registerSenders()
     {
-        foreach (config('laravel-failed-job-monitor.senders') as $sender) {
-            $this->app->make(FailedJobNotifier::class)->notifyIfJobFailed($sender);
-        }
+        $this->app->make(FailedJobNotifier::class)->register();
     }
 }

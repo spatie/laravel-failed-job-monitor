@@ -1,26 +1,19 @@
 <?php
 
 return [
+    'notifiable' => \Spatie\FailedJobMonitor\Notifiable::class,
+    'notification' => \Spatie\FailedJobMonitor\Notification::class,
+    'channels'   => ['mail', 'slack'],
+    'routes'     => [
+        'mail' => [
+            'to' => 'email@example.com',
+        ],
 
-    /*
-     * If a jobs fail we will send you a notification via these channels.
-     * You can use "mail", "slack" or both.
-     */
-    'senders' => ['mail'],
-
-    'mail' => [
-        'view' => 'laravel-failed-job-monitor::email',
-        'from' => 'your@email.com',
-        'to' => 'your@email.com',
-    ],
-
-    /*
-     * If want to send notifications to slack you must
-     * install the "maknz/slack" package
-     */
-    'slack' => [
-        'channel' => '#failed-jobs',
-        'username' => 'Failed Job Bot',
-        'icon' => ':robot_face:',
+        'slack' => [
+            'webhook_url' => '',
+            'channel' => '#failed-jobs',
+            'username' => 'Failed Job Bot',
+            'icon' => ':robot_face:',
+        ],
     ],
 ];

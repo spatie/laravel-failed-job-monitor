@@ -36,40 +36,55 @@ Next, you must publish the config file:
 php artisan vendor:publish --provider="Spatie\FailedJobMonitor\FailedJobMonitorServiceProvider"
 ```
 
-This is the contents of the configuration file. Most options are self-explanatory.
+This is the contents of the default configuration file.  Here you can specify the notifiable to which the notifications should be sent. The default notifiable will use the variables specified in this config file.
 
 ```php
 return [
-
-    /**
-     * If a job fails we will send you a notification via these channels.
-     * You can use "mail", "slack" or both.
-     */
-    'senders' => ['mail'],
-
-    'mail' => [
-        'view' => 'laravel-failed-job-monitor::email',
-        'from' => 'your@email.com',
-        'to' => 'your@email.com',
-    ],
-
-    /**
-     * If want to send notifications to slack you must
-     * install the "maknz/slack" package
-     */
-    'slack' => [
-        'channel' => '#failed-jobs',
-        'username' => 'Failed Job Bot',
-        'icon' => ':robot_face:',
-    ],
+    'notifiable' => \Spatie\FailedJobMonitor\Notifiable::class,
+     'notification' => \Spatie\FailedJobMonitor\Notification::class,
+     'channels'   => ['mail', 'slack'],
+     'routes'     => [
+         'mail' => [
+             'to' => 'email@example.com',
+         ],
+ 
+         'slack' => [
+             'webhook_url' => '',
+             'channel' => '#failed-jobs',
+             'username' => 'Failed Job Bot',
+             'icon' => ':robot_face:',
+         ],
+     ],
 ];
 
+``` 
+
+## Configuration
+
+### Customizing the notifiable
+ 
+By default the package uses this notifiable class: `\Spatie\FailedJobMonitor\Notifiable`. If you use a channel that needs some get some extra information out of the notifiable you can easily extend the default notifiable.
+Don't forget to register the notifiable in the config file like:
+```php
+// config/laravel-failed-job-monitor.php
+return [
+    'notifiable' => \App\CustomNotifiableForFailedJobMonitor::class,
+    ...
 ```
 
-Be sure to replace the placeholder values with your own info.
 
-The `mail`-sender uses [Laravel's built in mail capabilities](https://laravel.com/docs/5.2/mail#sending-mail).
-If you want be notified via Slack, you must [install the `maknz/slack` package](https://github.com/maknz/slack).
+### Customizing the notification
+ 
+By default the package uses this notification class: `\Spatie\FailedJobMonitor\Notification`. If you use new channels or want to customize standard messages you can define your own Notification class that extend the default Notification class
+Don't forget to register the notifiable in the config file:
+```php
+// config/laravel-failed-job-monitor.php
+return [
+    ...
+    'notification' => \App\Notifications\CustomNotificationForFailedJobMonitor::class,
+    ...
+```
+
 
 ## Postcardware
 
