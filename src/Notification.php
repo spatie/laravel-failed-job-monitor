@@ -56,6 +56,11 @@ class Notification extends NotificationBase
         return (new SlackMessage)
             ->error()
             ->content(trans('laravel-failed-job-monitor::slack.intro'))
+            ->from(
+                config('laravel-failed-job-monitor.routes.slack.username'),
+                config('laravel-failed-job-monitor.routes.slack.icon')
+            )
+            ->to(config('laravel-failed-job-monitor.routes.slack.channel'))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->title(trans('laravel-failed-job-monitor::slack.job_info'))
                     ->content($this->event->job->resolveName());

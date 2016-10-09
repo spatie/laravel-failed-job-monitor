@@ -27,7 +27,7 @@ class FailedJobMonitorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_send_notification_when_event_crashed()
+    public function it_can_send_notification_when_event_failed()
     {
         $job = $this->manager->generateJobForEventListener(random_int(1, 100));
         $this->fireFailed($job);
@@ -36,7 +36,7 @@ class FailedJobMonitorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_send_notification_when_job_crashed()
+    public function it_can_send_notification_when_job_failed()
     {
         $job = $this->manager->generateJob(random_int(1, 100));
         $this->fireFailed($job);
@@ -45,7 +45,7 @@ class FailedJobMonitorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_send_notification_when_job_crashed_to_different_notifiable()
+    public function it_can_send_notification_when_job_failed_to_different_notifiable()
     {
         $this->app['config']->set('laravel-failed-job-monitor.notifiable', AnotherNotifiable::class);
 
@@ -56,7 +56,7 @@ class FailedJobMonitorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_send_notification_when_job_crashed_to_different_notification()
+    public function it_can_send_notification_when_job_failed_to_different_notification()
     {
         $this->app['config']->set('laravel-failed-job-monitor.notification', AnotherNotification::class);
 
@@ -67,7 +67,7 @@ class FailedJobMonitorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_send_notification_when_job_crashed_to_different_channels()
+    public function it_can_send_notification_when_job_failed_to_different_channels()
     {
         $this->app['config']->set('laravel-failed-job-monitor.channels', ['mail', 'slack']);
 

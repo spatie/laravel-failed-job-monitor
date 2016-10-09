@@ -36,22 +36,25 @@ Next, you must publish the config file:
 php artisan vendor:publish --provider="Spatie\FailedJobMonitor\FailedJobMonitorServiceProvider"
 ```
 
-This is the contents of the default configuration file.  Most options are self-explanatory.
+This is the contents of the default configuration file.  Here you can specify the notifiable to which the notifications should be sent. The default notifiable will use the variables specified in this config file.
 
 ```php
 return [
     'notifiable' => \Spatie\FailedJobMonitor\Notifiable::class,
-    'notification' => \Spatie\FailedJobMonitor\Notification::class,
-    'channels'   => ['mail', 'slack'],
-    'routes'     => [
-        'mail' => [
-            'to' => 'i.spyric@gmail.com',
-        ],
-
-        'slack' => [
-            'webhook_url' => 'https://hooks.slack.com/services/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',
-        ],
-    ],
+     'notification' => \Spatie\FailedJobMonitor\Notification::class,
+     'channels'   => ['mail', 'slack'],
+     'routes'     => [
+         'mail' => [
+             'to' => 'email@example.com',
+         ],
+ 
+         'slack' => [
+             'webhook_url' => '',
+             'channel' => '#failed-jobs',
+             'username' => 'Failed Job Bot',
+             'icon' => ':robot_face:',
+         ],
+     ],
 ];
 
 ``` 

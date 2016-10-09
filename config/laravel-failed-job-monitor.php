@@ -1,16 +1,19 @@
 <?php
 
 return [
-    'notifiable'   => \Spatie\FailedJobMonitor\Notifiable::class,
+    'notifiable' => \Spatie\FailedJobMonitor\Notifiable::class,
     'notification' => \Spatie\FailedJobMonitor\Notification::class,
-    'channels'     => ['mail', 'slack'],
-    'routes'       => [
+    'channels'   => ['mail', 'slack'],
+    'routes'     => [
         'mail' => [
-            'to' => 'your@mail',
+            'to' => 'email@example.com',
         ],
 
         'slack' => [
             'webhook_url' => '',
+            'channel' => '#failed-jobs',
+            'username' => 'Failed Job Bot',
+            'icon' => ':robot_face:',
         ],
     ],
 ];

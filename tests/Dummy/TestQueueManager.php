@@ -16,23 +16,28 @@ class TestQueueManager
 
     protected function createPayload($job, $data = '', $queue = null) : string
     {
+        $data = $this->generatePayload($job, $data);
+
+        if (json_last_error() !== JSON_ERROR_NONE ) {
+            throw new \InvalidArgumentException('Unable to create payload: '.json_last_error_msg());
+        }
+
+        return $data;
+    }
+
+    protected function generatePayload($job, $data = '')
+    {
         if (is_object($job)) {
-            $payload = json_encode([
+            return json_encode([
                 'job' => 'Illuminate\Queue\CallQueuedHandler@call',
                 'data' => [
                     'commandName' => get_class($job),
                     'command' => serialize(clone $job),
                 ],
             ]);
-        } else {
-            $payload = json_encode($this->createPlainPayload($job, $data));
         }
 
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new InvalidArgumentException('Unable to create payload: '.json_last_error_msg());
-        }
-
-        return $payload;
+        return json_encode($this->createPlainPayload($job, $data));
     }
 
     /**

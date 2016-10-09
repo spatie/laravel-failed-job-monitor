@@ -2,9 +2,9 @@
 
 namespace Spatie\FailedJobMonitor;
 
-use Illuminate\Support\ServiceProvider as ServiceProviderBase;
+use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
-class FailedJobMonitorServiceProvider extends ServiceProviderBase
+class FailedJobMonitorServiceProvider extends IlluminateServiceProvider
 {
     /**
      * Bootstrap the application services.

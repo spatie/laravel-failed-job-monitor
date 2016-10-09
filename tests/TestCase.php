@@ -25,22 +25,5 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite.database', ':memory:');
-
-        $config = [
-            'notifiable' => \Spatie\FailedJobMonitor\Notifiable::class,
-            'notification' => \Spatie\FailedJobMonitor\Notification::class,
-            'channels'   => ['mail'],
-            'routes'     => [
-                'mail' => [
-                    'to' => 'i.spyric@gmail.com',
-                ],
-
-                'slack' => [
-                    'webhook_url' => '',
-                ],
-            ],
-        ];
-
-        $app['config']->set('laravel-failed-job-monitor', $config);
     }
 }
