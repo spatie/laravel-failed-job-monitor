@@ -3,7 +3,7 @@
 namespace Spatie\FailedJobMonitor\Test;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Spatie\FailedJobMonitor\Test\Dummy\ServiceProvider;
+use Spatie\FailedJobMonitor\FailedJobMonitorServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -16,7 +16,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function getPackageProviders($app)
     {
-        return [ServiceProvider::class];
+        return [FailedJobMonitorServiceProvider::class];
     }
 
     public function getEnvironmentSetUp($app)
@@ -27,29 +27,17 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $app['config']->set('database.connections.sqlite.database', ':memory:');
 
         $config = [
-            'Spatie\FailedJobMonitor\Test\Dummy\Data\SecondJob' => [
-                'notifiable'   => \Spatie\FailedJobMonitor\Test\Dummy\Models\User::class,
-                'notification' => \Spatie\FailedJobMonitor\Notification::class,
-                'via'          => ['mail'],
-                'filter' => 'scopeCanBeNotifiedAboutFailedAnotherJobs',
-            ],
-            'Spatie\FailedJobMonitor\Test\Dummy\Data\AnotherJob' => [
-                'notifiable'   => \Spatie\FailedJobMonitor\Test\Dummy\Models\User::class,
-                'notification' => \Spatie\FailedJobMonitor\Test\Dummy\Notifications\AnotherNotification::class,
-                'via'          => ['mail'],
-                //'filter' => 'scopeCanBeNotifiedAboutFailedAnotherJobs'
-            ],
-            'Spatie\FailedJobMonitor\Test\Dummy\Data\TeamJob' => [
-                'notifiable'   => \Spatie\FailedJobMonitor\Test\Dummy\Models\Team::class,
-                'notification' => \Spatie\FailedJobMonitor\Test\Dummy\Notifications\TeamNotification::class,
-                'via'          => ['mail'],
-                //'filter' => 'scopeCanBeNotifiedAboutFailedAnotherJobs'
-            ],
-            '*'                                      => [
-                'notifiable'   => \Spatie\FailedJobMonitor\Test\Dummy\Models\User::class,
-                'notification' => \Spatie\FailedJobMonitor\Notification::class,
-                'via'          => ['mail'],
-                //'filter' => 'canBeNotifiedAboutFailedJobs'
+            'notifiable' => \Spatie\FailedJobMonitor\Notifiable::class,
+            'notification' => \Spatie\FailedJobMonitor\Notification::class,
+            'channels'   => ['mail'],
+            'routes'     => [
+                'mail' => [
+                    'to' => 'i.spyric@gmail.com',
+                ],
+
+                'slack' => [
+                    'webhook_url' => '',
+                ],
             ],
         ];
 

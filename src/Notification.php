@@ -3,27 +3,26 @@
 namespace Spatie\FailedJobMonitor;
 
 use Carbon\Carbon;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\SlackAttachment;
-use Illuminate\Notifications\Messages\SlackMessage;
-use Illuminate\Notifications\Notification as NotificationBase;
 use Illuminate\Queue\Events\JobFailed;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\SlackMessage;
+use Illuminate\Notifications\Messages\SlackAttachment;
+use Illuminate\Notifications\Notification as NotificationBase;
 
 class Notification extends NotificationBase
 {
-    public $failed;
-
-    public $via;
-
-    public function __construct(JobFailed $failed, $via = [])
-    {
-        $this->failed = $failed;
-        $this->via = $via;
-    }
+    protected $event;
 
     public function via($notifiable)
     {
-        return $this->via;
+        return config('laravel-failed-job-monitor.channels');
+    }
+
+    public function setEvent(JobFailed $event)
+    {
+        $this->event = $event;
+
+        return $this;
     }
 
     /**
@@ -38,12 +37,12 @@ class Notification extends NotificationBase
             ->subject(trans('laravel-failed-job-monitor::mail.subject'))
             ->greeting(trans('laravel-failed-job-monitor::mail.greeting'))
             ->line(trans('laravel-failed-job-monitor::mail.intro'))
-            ->line(trans('laravel-failed-job-monitor::mail.job_info', ['job' => $this->failed->job->resolveName()]))
+            ->line(trans('laravel-failed-job-monitor::mail.job_info', ['job' => $this->event->job->resolveName()]))
             ->line(trans('laravel-failed-job-monitor::mail.attachment'))
-            ->attachData($this->buildException($this->failed->exception),
-                'failed_job_'.Carbon::now()->format('Y-m-d h:i:s').'.txt')
-            ->attachData($this->failed->job->getRawBody(),
-                'payload_'.Carbon::now()->format('Y-m-d h:i:s').'.txt');
+            ->attachData($this->buildException($this->event->exception),
+                'failed_job_' . Carbon::now()->format('Y-m-d h:i:s') . '.txt')
+            ->attachData($this->event->job->getRawBody(),
+                'payload_' . Carbon::now()->format('Y-m-d h:i:s') . '.txt');
     }
 
     /**
@@ -59,26 +58,28 @@ class Notification extends NotificationBase
             ->content(trans('laravel-failed-job-monitor::slack.intro'))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->title(trans('laravel-failed-job-monitor::slack.job_info'))
-                    ->content($this->failed->job->resolveName());
+                    ->content($this->event->job->resolveName());
             })->attachment(function (SlackAttachment $attachment) {
-                $attachment->title('failed_job_'.Carbon::now()->format('Y-m-d h:i:s').'.txt')
-                    ->content($this->buildException($this->failed->exception));
+                $attachment->title('failed_job_' . Carbon::now()->format('Y-m-d h:i:s') . '.txt')
+                    ->content($this->buildException($this->event->exception));
             })->attachment(function (SlackAttachment $attachment) {
-                $attachment->title('payload_'.Carbon::now()->format('Y-m-d h:i:s').'.txt')
-                    ->content($this->failed->job->getRawBody());
+                $attachment->title('payload_' . Carbon::now()->format('Y-m-d h:i:s') . '.txt')
+                    ->content($this->event->job->getRawBody());
             });
     }
 
-    protected function buildException(\Exception $e)
+    protected function buildException(\Exception $exception)
     {
-        $response = '';
-        while ($e !== null) {
-            $response .= sprintf('%s: %s (%s:%s)', get_class($e), $e->getMessage(), $e->getFile(), $e->getLine());
-            $response .= PHP_EOL;
-            $response .= $e->getTraceAsString().PHP_EOL;
-            $response .= '---------------------------'.PHP_EOL.PHP_EOL;
-            $e = $e->getPrevious();
-        }
+        $response = sprintf(
+            '%s: %s (%s:%s)',
+            get_class($exception),
+            $exception->getMessage(),
+            $exception->getFile(),
+            $exception->getLine()
+        );
+
+        $response .= PHP_EOL;
+        $response .= $exception->getTraceAsString() . PHP_EOL;
 
         return $response;
     }

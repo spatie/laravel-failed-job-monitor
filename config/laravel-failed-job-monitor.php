@@ -1,10 +1,16 @@
 <?php
 
 return [
-    '*' => [
-        'notifiable' => \App\User::class,
-        'notification' => \Spatie\FailedJobMonitor\Notification::class,
-        'via' => ['mail'],
-        //'filter' => 'canBeNotifiedAboutFailedJobs'
+    'notifiable'   => \Spatie\FailedJobMonitor\Notifiable::class,
+    'notification' => \Spatie\FailedJobMonitor\Notification::class,
+    'channels'     => ['mail', 'slack'],
+    'routes'       => [
+        'mail' => [
+            'to' => 'your@mail',
+        ],
+
+        'slack' => [
+            'webhook_url' => '',
+        ],
     ],
 ];

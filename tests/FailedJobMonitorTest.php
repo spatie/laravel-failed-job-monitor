@@ -3,17 +3,14 @@
 namespace Spatie\FailedJobMonitor\Test;
 
 use Illuminate\Queue\Events\JobFailed;
+use Spatie\FailedJobMonitor\Notifiable;
 use Spatie\FailedJobMonitor\Notification;
-use Spatie\FailedJobMonitor\Test\Dummy\Models\Team;
-use Spatie\FailedJobMonitor\Test\Dummy\Models\User;
-use Spatie\FailedJobMonitor\Test\Dummy\Data\TeamJob;
 use Spatie\FailedJobMonitor\Test\Dummy\TestException;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Spatie\FailedJobMonitor\Test\Dummy\Data\SecondJob;
-use Spatie\FailedJobMonitor\Test\Dummy\Data\AnotherJob;
 use Spatie\FailedJobMonitor\Test\Dummy\TestQueueManager;
+use Illuminate\Support\Facades\Notification as NotificationFacade;
+use Spatie\FailedJobMonitor\Test\Dummy\Notifications\AnotherNotifiable;
 use Spatie\FailedJobMonitor\Test\Dummy\Notifications\AnotherNotification;
-use Spatie\FailedJobMonitor\Test\Dummy\Notifications\TeamNotification;
 
 class FailedJobMonitorTest extends TestCase
 {
@@ -26,180 +23,76 @@ class FailedJobMonitorTest extends TestCase
     {
         parent::setUp();
         $this->manager = new TestQueueManager($this->app);
-        \Illuminate\Support\Facades\Notification::fake();
+        NotificationFacade::fake();
     }
 
     /** @test */
     public function it_can_send_notification_when_event_crashed()
     {
-        $users = $this->createUsers(2);
-        $teams = $this->createTeams(2);
-
         $job = $this->manager->generateJobForEventListener(random_int(1, 100));
         $this->fireFailed($job);
 
-        \Illuminate\Support\Facades\Notification::assertSentTo(
-            $users[0],
-            Notification::class,
-            function (Notification $notification, $channels) use ($job) {
-                return $notification->failed->job->getRawBody() === $job->getRawBody();
-            }
-        );
-
-        \Illuminate\Support\Facades\Notification::assertNotSentTo($users[1], Notification::class);
-
-        $users->each(function ($user) {
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, AnotherNotification::class);
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, TeamNotification::class);
-        });
-
-        $teams->each(function ($team) {
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, Notification::class);
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, AnotherNotification::class);
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, TeamNotification::class);
-        });
+        NotificationFacade::assertSentTo(new Notifiable(), Notification::class);
     }
 
     /** @test */
     public function it_can_send_notification_when_job_crashed()
     {
-        $users = $this->createUsers(2);
-        $teams = $this->createTeams(2);
         $job = $this->manager->generateJob(random_int(1, 100));
         $this->fireFailed($job);
 
-        \Illuminate\Support\Facades\Notification::assertSentTo(
-            $users[0],
-            Notification::class,
-            function (Notification $notification, $channels) use ($job) {
-                return $notification->failed->job->getRawBody() === $job->getRawBody();
-            }
-        );
-
-        \Illuminate\Support\Facades\Notification::assertNotSentTo(
-            $users[1], Notification::class
-        );
-
-        $users->each(function ($user) {
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, AnotherNotification::class);
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, TeamNotification::class);
-        });
-
-        $teams->each(function ($team) {
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, Notification::class);
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, AnotherNotification::class);
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, TeamNotification::class);
-        });
+        NotificationFacade::assertSentTo(new Notifiable(), Notification::class);
     }
 
     /** @test */
-    public function it_can_send_notification_when_job_crashed_to_additional_channel_using_different_filter_scope()
+    public function it_can_send_notification_when_job_crashed_to_different_notifiable()
     {
-        $users = $this->createUsers(2);
-        $teams = $this->createTeams(2);
-        $job = $this->manager->generateJob(random_int(1, 100), SecondJob::class);
+        $this->app['config']->set('laravel-failed-job-monitor.notifiable', AnotherNotifiable::class);
+
+        $job = $this->manager->generateJob(random_int(1, 100));
         $this->fireFailed($job);
 
-        $users->each(function ($user) use ($job) {
-            \Illuminate\Support\Facades\Notification::assertSentTo(
-                $user,
-                Notification::class,
-                function (Notification $notification, $channels) use ($job) {
-                    return $notification->failed->job->getRawBody() === $job->getRawBody();
-                }
-            );
-
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, AnotherNotification::class);
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, TeamNotification::class);
-        });
-
-        $teams->each(function ($team) {
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, Notification::class);
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, AnotherNotification::class);
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, TeamNotification::class);
-        });
+        NotificationFacade::assertSentTo(new AnotherNotifiable(), Notification::class);
     }
 
     /** @test */
-    public function it_can_send_notification_when_job_crashed_to_additional_channel_using_different_notification_class()
+    public function it_can_send_notification_when_job_crashed_to_different_notification()
     {
-        $users = $this->createUsers(2);
-        $teams = $this->createTeams(2);
-        $job = $this->manager->generateJob(random_int(1, 100), AnotherJob::class);
+        $this->app['config']->set('laravel-failed-job-monitor.notification', AnotherNotification::class);
+
+        $job = $this->manager->generateJob(random_int(1, 100));
         $this->fireFailed($job);
 
-        \Illuminate\Support\Facades\Notification::assertSentTo(
-            $users[0],
-            Notification::class,
-            function (Notification $notification, $channels) use ($job) {
-                return $notification->failed->job->getRawBody() === $job->getRawBody();
-            }
-        );
-
-        \Illuminate\Support\Facades\Notification::assertNotSentTo($users[1], TeamNotification::class);
-
-
-        \Illuminate\Support\Facades\Notification::assertSentTo(
-            $users[0],
-            AnotherNotification::class,
-            function (Notification $notification, $channels) use ($job) {
-                return $notification->failed->job->getRawBody() === $job->getRawBody();
-            }
-        );
-
-        \Illuminate\Support\Facades\Notification::assertNotSentTo(
-            $users[1], AnotherNotification::class
-        );
-
-        $users->each(function ($user) {
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, TeamNotification::class);
-        });
-
-        $teams->each(function ($team) {
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, Notification::class);
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, AnotherNotification::class);
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, TeamNotification::class);
-        });
+        NotificationFacade::assertSentTo(new Notifiable(), AnotherNotification::class);
     }
 
     /** @test */
-    public function it_can_send_notification_when_job_crashed_to_additional_channel_using_different_notifiable_class()
+    public function it_can_send_notification_when_job_crashed_to_different_channels()
     {
-        $users = $this->createUsers(2);
-        $teams = $this->createTeams(2);
-        $job = $this->manager->generateJob(random_int(1, 100), TeamJob::class);
+        $this->app['config']->set('laravel-failed-job-monitor.channels', ['mail', 'slack']);
+
+        $job = $this->manager->generateJob(random_int(1, 100));
         $this->fireFailed($job);
 
-        \Illuminate\Support\Facades\Notification::assertSentTo(
-            $users[0],
+        NotificationFacade::assertSentTo(
+            new Notifiable(),
             Notification::class,
-            function (Notification $notification, $channels) use ($job) {
-                return $notification->failed->job->getRawBody() === $job->getRawBody();
+            function ($notification, $channels) {
+                return count(array_diff($channels, ['mail', 'slack'])) === 0;
             }
         );
+    }
 
-        \Illuminate\Support\Facades\Notification::assertNotSentTo($users[1], TeamNotification::class);
+    /** @test */
+    public function it_can_take_default_channels_info_from_config()
+    {
+        $this->app['config']->set('laravel-failed-job-monitor.routes.mail.to', 'johndoe@example.com');
+        $this->app['config']->set('laravel-failed-job-monitor.routes.slack.webhook_url', 'SLACK_URL');
 
+        $notifiable = new Notifiable();
 
-        $users->each(function ($user) {
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, AnotherNotification::class);
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($user, TeamNotification::class);
-        });
-
-        $teams->each(function ($team) {
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, Notification::class);
-            \Illuminate\Support\Facades\Notification::assertNotSentTo($team, AnotherNotification::class);
-        });
-
-        \Illuminate\Support\Facades\Notification::assertSentTo(
-            $teams[0],
-            TeamNotification::class,
-            function (Notification $notification, $channels) use ($job) {
-                return $notification->failed->job->getRawBody() === $job->getRawBody();
-            }
-        );
-
-        \Illuminate\Support\Facades\Notification::assertNotSentTo($teams[1], TeamNotification::class);
+        $this->assertEquals('SLACK_URL', $notifiable->routeNotificationForSlack());
+        $this->assertEquals('johndoe@example.com', $notifiable->routeNotificationForMail());
     }
 
     protected function fireFailed($event)
@@ -209,29 +102,4 @@ class FailedJobMonitorTest extends TestCase
         return event(new JobFailed('test', $event, $e));
     }
 
-    protected function createUsers($number = 1)
-    {
-        $data = collect(range(1, $number))->map(function () {
-            return User::create([]);
-        });
-
-        if ($number == 1) {
-            return $data->first();
-        }
-
-        return $data;
-    }
-
-    protected function createTeams($number = 1)
-    {
-        $data = collect(range(1, $number))->map(function () {
-            return Team::create([]);
-        });
-
-        if ($number == 1) {
-            return $data->first();
-        }
-
-        return $data;
-    }
 }
