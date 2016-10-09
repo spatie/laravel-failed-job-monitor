@@ -18,7 +18,7 @@ class TestQueueManager
     {
         $data = $this->generatePayload($job, $data);
 
-        if (json_last_error() !== JSON_ERROR_NONE ) {
+        if (json_last_error() !== JSON_ERROR_NONE) {
             throw new \InvalidArgumentException('Unable to create payload: '.json_last_error_msg());
         }
 
