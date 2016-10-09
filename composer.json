@@ -30,7 +30,10 @@
         "php" : "^7.0",
         "illuminate/queue": "~5.3.8",
         "illuminate/notifications": "~5.3.8",
-        "illuminate/support": "~5.3.8"
+        "illuminate/support": "~5.3.8",
+        "illuminate/console": "~5.3.8",
+        "illuminate/contracts": "~5.3.8",
+        "illuminate/events": "~5.3.8"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.0",
