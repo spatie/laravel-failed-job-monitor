@@ -32,7 +32,7 @@ class FailedJobMonitorTest extends TestCase
     public function it_can_send_notification_when_event_failed()
     {
         $job = $this->manager->generateJobForEventListener(random_int(1, 100));
-        
+
         $this->fireFailed($job);
 
         NotificationFacade::assertSentTo(new Notifiable(), Notification::class);
