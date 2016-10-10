@@ -2,8 +2,6 @@
 
 namespace Spatie\FailedJobMonitor;
 
-use Carbon\Carbon;
-use Exception;
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\SlackMessage;

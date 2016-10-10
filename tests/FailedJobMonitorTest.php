@@ -16,13 +16,15 @@ class FailedJobMonitorTest extends TestCase
 {
     use DatabaseMigrations;
 
-    /** @var TestQueueManager */
+    /** @var \Spatie\FailedJobMonitor\Test\Dummy\TestQueueManager */
     protected $manager;
 
     public function setUp()
     {
         parent::setUp();
+
         $this->manager = new TestQueueManager($this->app);
+
         NotificationFacade::fake();
     }
 
@@ -30,6 +32,7 @@ class FailedJobMonitorTest extends TestCase
     public function it_can_send_notification_when_event_failed()
     {
         $job = $this->manager->generateJobForEventListener(random_int(1, 100));
+        
         $this->fireFailed($job);
 
         NotificationFacade::assertSentTo(new Notifiable(), Notification::class);
