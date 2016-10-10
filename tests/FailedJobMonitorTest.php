@@ -86,8 +86,8 @@ class FailedJobMonitorTest extends TestCase
     /** @test */
     public function it_can_take_default_channels_info_from_config()
     {
-        $this->app['config']->set('laravel-failed-job-monitor.routes.mail.to', 'johndoe@example.com');
-        $this->app['config']->set('laravel-failed-job-monitor.routes.slack.webhook_url', 'SLACK_URL');
+        $this->app['config']->set('laravel-failed-job-monitor.mail.to', 'johndoe@example.com');
+        $this->app['config']->set('laravel-failed-job-monitor.slack.webhook_url', 'SLACK_URL');
 
         $notifiable = new Notifiable();
 

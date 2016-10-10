@@ -37,15 +37,12 @@ class Notification extends IlluminateNotification
     public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject(trans('laravel-failed-job-monitor::mail.subject'))
-            ->greeting(trans('laravel-failed-job-monitor::mail.greeting'))
-            ->line(trans('laravel-failed-job-monitor::mail.intro'))
-            ->line(trans('laravel-failed-job-monitor::mail.job_info', ['job' => $this->event->job->resolveName()]))
-            ->line(trans('laravel-failed-job-monitor::mail.attachment'))
-            ->attachData($this->buildException($this->event->exception),
-                'failed_job_'.Carbon::now()->format('Y-m-d h:i:s').'.txt')
-            ->attachData($this->event->job->getRawBody(),
-                'payload_'.Carbon::now()->format('Y-m-d h:i:s').'.txt');
+            ->error()
+            ->subject('A job failed at ' . env('APP_URL'))
+            ->line('Exception message:' . $this->event->exception->getMessage())
+            ->line('Job class: ' . $this->event->job->resolveName())
+            ->line('Job body: ' . $this->event->job->getRawBody())
+            ->line('Exception: ' . $this->event->exception->getTraceAsString());
     }
 
     /**
@@ -59,28 +56,15 @@ class Notification extends IlluminateNotification
     {
         return (new SlackMessage)
             ->error()
-            ->content(trans('laravel-failed-job-monitor::slack.intro'))
-            ->from(
-                config('laravel-failed-job-monitor.routes.slack.username'),
-                config('laravel-failed-job-monitor.routes.slack.icon')
-            )
-            ->to(config('laravel-failed-job-monitor.routes.slack.channel'))
+            ->content('A job failed at ' . env('APP_URL'))
             ->attachment(function (SlackAttachment $attachment) {
-                $attachment->title(trans('laravel-failed-job-monitor::slack.job_info'))
-                    ->content($this->event->job->resolveName());
-            })->attachment(function (SlackAttachment $attachment) {
-                $attachment->title('failed_job_'.Carbon::now()->format('Y-m-d h:i:s').'.txt')
-                    ->content($this->buildException($this->event->exception));
-            })->attachment(function (SlackAttachment $attachment) {
-                $attachment->title('payload_'.Carbon::now()->format('Y-m-d h:i:s').'.txt')
-                    ->content($this->event->job->getRawBody());
+
+                $attachment->fields([
+                    'Exception message' => $this->event->exception->getMessage(),
+                    'Job class' => $this->event->job->resolveName(),
+                    'Job body' => $this->event->job->getRawBody(),
+                    'Exception' => $this->event->exception->getTraceAsString(),
+                ]);
             });
-    }
-
-    protected function buildException(Exception $exception)
-    {
-        $exceptionClass = get_class($exception);
-
-        return "{$exceptionClass} : {$exception->getMessage()} ({$exception->getFile()}:{$exception->getLine()})".PHP_EOL.$exception->getTraceAsString();
     }
 }
