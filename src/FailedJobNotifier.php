@@ -4,7 +4,8 @@ namespace Spatie\FailedJobMonitor;
 
 use Illuminate\Queue\QueueManager;
 use Illuminate\Queue\Events\JobFailed;
-use Spatie\FailedJobMonitor\Exceptions\InvalidNotificationException;
+use Spatie\FailedJobMonitor\Exceptions\InvalidConfiguration;
+use Spatie\FailedJobMonitor\Exceptions\InvalidNotification;
 
 class FailedJobNotifier
 {
@@ -16,14 +17,9 @@ class FailedJobNotifier
 
             $notification = app(config('laravel-failed-job-monitor.notification'))->setEvent($event);
 
-            $notificationClass = get_class($notification);
-
-            if (! $this->isValidNotificationClass($notification)) {
-                throw new InvalidNotificationException(
-                    "Class {$notificationClass} must extend ".Notification::class
-                );
+            if (!$this->isValidNotificationClass($notification)) {
+                throw InvalidConfiguration::notificationClassInvalid(get_class($notification));
             }
-
             $notifiable->notify($notification);
         });
     }
