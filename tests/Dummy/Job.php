@@ -2,6 +2,9 @@
 
 namespace Spatie\FailedJobMonitor\Test\Dummy;
 
-class TestException extends \Exception
+class Job
 {
+    public function __construct()
+    {
+    }
 }

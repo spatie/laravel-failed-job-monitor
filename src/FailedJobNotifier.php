@@ -11,7 +11,9 @@ class FailedJobNotifier
     public function register()
     {
         app(QueueManager::class)->failing(function (JobFailed $event) {
+
             $notifiable = app(config('laravel-failed-job-monitor.notifiable'));
+
             $notification = app(config('laravel-failed-job-monitor.notification'))->setEvent($event);
 
             $notificationClass = get_class($notification);
@@ -26,7 +28,7 @@ class FailedJobNotifier
         });
     }
 
-    public function isValidNotificationClass($notification):bool
+    public function isValidNotificationClass($notification): bool
     {
         if (get_class($notification) === Notification::class) {
             return true;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\FailedJobMonitor\Test\Dummy\Notifications;
+namespace Spatie\FailedJobMonitor\Test\Dummy;
 
 use Spatie\FailedJobMonitor\Notification;
 
