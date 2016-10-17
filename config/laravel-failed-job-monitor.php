@@ -14,9 +14,8 @@ return [
      */
     'notifiable' => \Spatie\FailedJobMonitor\Notifiable::class,
 
-
     /**
-     * The channels to which the notification will be sent
+     * The channels to which the notification will be sent.
      */
     'channels' => ['mail', 'slack'],
 
