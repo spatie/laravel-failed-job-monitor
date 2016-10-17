@@ -8,7 +8,7 @@
 [![StyleCI](https://styleci.io/repos/52006263/shield)](https://styleci.io/repos/52006263)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-failed-job-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-job-monitor)
 
-This package sends notifications if a queued job fails. Out of the box it can send a notification via mail and/or Slack.
+This package sends notifications if a queued job fails. Out of the box it can send a notification via mail and/or Slack. It leverages []Laravel 5.3's notification capabilities](https://laravel.com/docs/5.3/notifications).
 
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
