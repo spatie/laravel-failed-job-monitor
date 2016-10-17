@@ -1,6 +1,6 @@
 # Changelog
 
-All Notable changes to laravel-failed-job-monitor will be documented in this file
+All notable changes to laravel-failed-job-monitor will be documented in this file
 
 ## 1.1.0 - 2016-09-11
 

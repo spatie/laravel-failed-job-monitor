@@ -2,25 +2,36 @@
 
 namespace Spatie\FailedJobMonitor;
 
-use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Queue\QueueManager;
-use Spatie\FailedJobMonitor\Senders\Sender;
+use Illuminate\Queue\Events\JobFailed;
+use Spatie\FailedJobMonitor\Exceptions\InvalidConfiguration;
 
 class FailedJobNotifier
 {
-    public function notifyIfJobFailed(string $sender)
+    public function register()
     {
-        $sender = $this->getChannelInstance($sender);
+        app(QueueManager::class)->failing(function (JobFailed $event) {
+            $notifiable = app(config('laravel-failed-job-monitor.notifiable'));
 
-        app(QueueManager::class)->failing(function (JobFailed $event) use ($sender) {
-            $sender->send(json_encode($event->exception));
+            $notification = app(config('laravel-failed-job-monitor.notification'))->setEvent($event);
+
+            if (! $this->isValidNotificationClass($notification)) {
+                throw InvalidConfiguration::notificationClassInvalid(get_class($notification));
+            }
+            $notifiable->notify($notification);
         });
     }
 
-    protected function getChannelInstance(string $sender) : Sender
+    public function isValidNotificationClass($notification): bool
     {
-        $className = '\Spatie\FailedJobMonitor\Senders\\'.ucfirst($sender).'Sender';
+        if (get_class($notification) === Notification::class) {
+            return true;
+        }
 
-        return app($className);
+        if (is_subclass_of($notification, Notification::class)) {
+            return true;
+        }
+
+        return false;
     }
 }

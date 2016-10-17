@@ -8,7 +8,7 @@
 [![StyleCI](https://styleci.io/repos/52006263/shield)](https://styleci.io/repos/52006263)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-failed-job-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-job-monitor)
 
-This package sends notifications if a queued job fails. Out of the box it can send a notification via mail and/or Slack.
+This package sends notifications if a queued job fails. Out of the box it can send a notification via mail and/or Slack. It leverages [Laravel 5.3's notification capabilities](https://laravel.com/docs/5.3/notifications).
 
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
@@ -36,40 +36,67 @@ Next, you must publish the config file:
 php artisan vendor:publish --provider="Spatie\FailedJobMonitor\FailedJobMonitorServiceProvider"
 ```
 
-This is the contents of the configuration file. Most options are self-explanatory.
+This is the contents of the default configuration file.  Here you can specify the notifiable to which the notifications should be sent. The default notifiable will use the variables specified in this config file.
 
 ```php
 return [
 
     /**
-     * If a job fails we will send you a notification via these channels.
-     * You can use "mail", "slack" or both.
+     * The notification that will be sent when a job fails.
      */
-    'senders' => ['mail'],
-
-    'mail' => [
-        'view' => 'laravel-failed-job-monitor::email',
-        'from' => 'your@email.com',
-        'to' => 'your@email.com',
-    ],
+    'notification' => \Spatie\FailedJobMonitor\Notification::class,
 
     /**
-     * If want to send notifications to slack you must
-     * install the "maknz/slack" package
+     * The notifiable to which the notification will be sent. The default
+     * notifiable will use the mail and slack configuration specified
+     * in this config file.
      */
+    'notifiable' => \Spatie\FailedJobMonitor\Notifiable::class,
+
+    /**
+     * The channels to which the notification will be sent.
+     */
+    'channels' => ['mail', 'slack'],
+
+    'mail' => [
+        'to' => 'email@example.com',
+    ],
+
     'slack' => [
-        'channel' => '#failed-jobs',
-        'username' => 'Failed Job Bot',
-        'icon' => ':robot_face:',
+        'webhook_url' => env('FAILED_JOB_SLACK_WEBHOOK_URL'),
     ],
 ];
+``` 
 
+## Configuration
+
+
+### Customizing the notification
+ 
+The default notification class provided by this package has support for mail and Slack. 
+
+If you want to to customize the notification you can specify your own notification class in the config file.
+
+```php
+// config/laravel-failed-job-monitor.php
+return [
+    ...
+    'notification' => \App\Notifications\CustomNotificationForFailedJobMonitor::class,
+    ...
 ```
 
-Be sure to replace the placeholder values with your own info.
+### Customizing the notifiable
+ 
+The default notifiable class provided by this package use the `channels`, `mail` and `slack` keys from the `config` file to determine how notifications must be sent
+ 
+If you want to customize the notifiable you can specify your own notifiable class in the config file.
 
-The `mail`-sender uses [Laravel's built in mail capabilities](https://laravel.com/docs/5.2/mail#sending-mail).
-If you want be notified via Slack, you must [install the `maknz/slack` package](https://github.com/maknz/slack).
+```php
+// config/laravel-failed-job-monitor.php
+return [
+    'notifiable' => \App\CustomNotifiableForFailedJobMonitor::class,
+    ...
+```
 
 ## Postcardware
 
@@ -103,8 +130,10 @@ If you discover any security related issues, please email freek@spatie.be instea
 
 ## Credits
 
-- [Jolita Grazyte](https://github.com/JolitaGrazyte)
+- [Freek Van der Herten](https://github.com/freekmurze)
 - [All Contributors](../../contributors)
+
+A big thank you to [Egor Talantsev](https://github.com/spyric) for his help creating `v2` of the package.
 
 ## About Spatie
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).

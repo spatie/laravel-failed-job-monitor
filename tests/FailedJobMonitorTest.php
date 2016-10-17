@@ -2,81 +2,59 @@
 
 namespace Spatie\FailedJobMonitor\Test;
 
-use Illuminate\Contracts\Queue\Job;
 use Illuminate\Queue\Events\JobFailed;
-use Illuminate\Queue\Jobs\SyncJob;
-use Spatie\FailedJobMonitor\FailedJobNotifier;
+use Spatie\FailedJobMonitor\Notifiable;
+use Spatie\FailedJobMonitor\Notification;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Spatie\FailedJobMonitor\Test\Dummy\Job;
+use Illuminate\Support\Facades\Notification as NotificationFacade;
+use Spatie\FailedJobMonitor\Test\Dummy\AnotherNotifiable;
+use Spatie\FailedJobMonitor\Test\Dummy\AnotherNotification;
 
 class FailedJobMonitorTest extends TestCase
 {
-    /** @var \Spatie\FailedJobMonitor\Test\InMemoryMailer */
-    protected $mailer;
+    use DatabaseMigrations;
 
-    /** @var \Spatie\FailedJobMonitor\FailedJobNotifier */
-    protected $notifier;
+    /** @var \Spatie\FailedJobMonitor\Test\Dummy\TestQueueManager */
+    protected $manager;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->mailer = new InMemoryMailer();
-        $this->notifier = new FailedJobNotifier();
-
-        $this->app->instance('mailer', $this->mailer);
+        NotificationFacade::fake();
     }
 
     /** @test */
-    public function it_can_send_a_mail_to_the_configured_mail_address()
+    public function it_can_send_notification_when_a_job_failed()
     {
-        $this->notifier->notifyIfJobFailed('mail');
+        $this->fireFailedEvent();
 
-        $this->generateEvent();
-
-        $this->assertTrue($this->mailer->hasMessageFor('your@email.com'));
+        NotificationFacade::assertSentTo(new Notifiable(), Notification::class);
     }
 
     /** @test */
-    public function it_can_send_a_mail_with_a_subject()
+    public function it_can_send_notification_when_job_failed_to_different_notifiable()
     {
-        $this->notifier->notifyIfJobFailed('mail');
+        $this->app['config']->set('laravel-failed-job-monitor.notifiable', AnotherNotifiable::class);
 
-        $this->generateEvent();
+        $this->fireFailedEvent();
 
-        $this->assertTrue($this->mailer->hasMessageWithSubject('A queued job has failed on http://localhost'));
+        NotificationFacade::assertSentTo(new AnotherNotifiable(), Notification::class);
     }
 
     /** @test */
-    public function it_can_send_message_with_content()
+    public function it_can_send_notification_when_job_failed_to_different_notification()
     {
-        $this->notifier->notifyIfJobFailed('mail');
+        $this->app['config']->set('laravel-failed-job-monitor.notification', AnotherNotification::class);
 
-        $this->generateEvent();
+        $this->fireFailedEvent();
 
-        $contains = false;
-
-        foreach ($this->mailer->getMessages() as $message) {
-            if ($this->mailer->hasContent('DummyEvent', $message)) {
-                $contains = true;
-            }
-        }
-
-        $this->assertTrue($contains);
+        NotificationFacade::assertSentTo(new Notifiable(), AnotherNotification::class);
     }
 
-    protected function getDummyJob() : Job
+    protected function fireFailedEvent()
     {
-        return new SyncJob($this->app, '');
-    }
-
-    protected function generateEvent() : array
-    {
-        return event(new JobFailed('test', $this->getDummyJob(),
-            [
-                'data' => [
-                    'command' => serialize(new DummyEvent()),
-                ],
-            ]
-
-        ));
+        return event(new JobFailed('test', new Job(), new \Exception()));
     }
 }

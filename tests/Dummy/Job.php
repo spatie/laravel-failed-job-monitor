@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\FailedJobMonitor\Test;
+namespace Spatie\FailedJobMonitor\Test\Dummy;
 
-class DummyEvent
+class Job
 {
     public function __construct()
     {
