@@ -8,7 +8,7 @@
 [![StyleCI](https://styleci.io/repos/52006263/shield)](https://styleci.io/repos/52006263)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-failed-job-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-job-monitor)
 
-This package sends notifications if a queued job fails. Out of the box it can send a notification via mail and/or Slack. It leverages []Laravel 5.3's notification capabilities](https://laravel.com/docs/5.3/notifications).
+This package sends notifications if a queued job fails. Out of the box it can send a notification via mail and/or Slack. It leverages [Laravel 5.3's notification capabilities](https://laravel.com/docs/5.3/notifications).
 
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
@@ -66,27 +66,17 @@ return [
         'webhook_url' => env('FAILED_JOB_SLACK_WEBHOOK_URL'),
     ],
 ];
-
 ``` 
 
 ## Configuration
 
-### Customizing the notifiable
- 
-By default the package uses this notifiable class: `\Spatie\FailedJobMonitor\Notifiable`. If you use a channel that needs some get some extra information out of the notifiable you can easily extend the default notifiable.
-Don't forget to register the notifiable in the config file like:
-```php
-// config/laravel-failed-job-monitor.php
-return [
-    'notifiable' => \App\CustomNotifiableForFailedJobMonitor::class,
-    ...
-```
-
 
 ### Customizing the notification
  
-By default the package uses this notification class: `\Spatie\FailedJobMonitor\Notification`. If you use new channels or want to customize standard messages you can define your own Notification class that extend the default Notification class
-Don't forget to register the notifiable in the config file:
+The default notification class provided by this package has support for mail and Slack. 
+
+If you want to to customize the notification you can specify your own notification class in the config file.
+
 ```php
 // config/laravel-failed-job-monitor.php
 return [
@@ -95,6 +85,18 @@ return [
     ...
 ```
 
+### Customizing the notifiable
+ 
+The default notifiable class provided by this package use the `channels`, `mail` and `slack` keys from the `config` file to determine how notifications must be sent
+ 
+If you want to customize the notifiable you can specify your own notifiable class in the config file.
+
+```php
+// config/laravel-failed-job-monitor.php
+return [
+    'notifiable' => \App\CustomNotifiableForFailedJobMonitor::class,
+    ...
+```
 
 ## Postcardware
 
@@ -128,8 +130,10 @@ If you discover any security related issues, please email freek@spatie.be instea
 
 ## Credits
 
-- [Jolita Grazyte](https://github.com/JolitaGrazyte)
+- [Freek Van der Herten](https://github.com/freekmurze)
 - [All Contributors](../../contributors)
+
+A big thank you to [Egor Talantsev](https://github.com/spyric) for his help creating `v2` of the package.
 
 ## About Spatie
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
