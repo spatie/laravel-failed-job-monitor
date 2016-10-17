@@ -36,11 +36,11 @@ class Notification extends IlluminateNotification
     {
         return (new MailMessage)
             ->error()
-            ->subject('A job failed at ' . env('APP_URL'))
-            ->line('Exception message:' . $this->event->exception->getMessage())
-            ->line('Job class: ' . $this->event->job->resolveName())
-            ->line('Job body: ' . $this->event->job->getRawBody())
-            ->line('Exception: ' . $this->event->exception->getTraceAsString());
+            ->subject('A job failed at '.env('APP_URL'))
+            ->line('Exception message:'.$this->event->exception->getMessage())
+            ->line('Job class: '.$this->event->job->resolveName())
+            ->line('Job body: '.$this->event->job->getRawBody())
+            ->line('Exception: '.$this->event->exception->getTraceAsString());
     }
 
     /**
@@ -54,9 +54,8 @@ class Notification extends IlluminateNotification
     {
         return (new SlackMessage)
             ->error()
-            ->content('A job failed at ' . env('APP_URL'))
+            ->content('A job failed at '.env('APP_URL'))
             ->attachment(function (SlackAttachment $attachment) {
-
                 $attachment->fields([
                     'Exception message' => $this->event->exception->getMessage(),
                     'Job class' => $this->event->job->resolveName(),

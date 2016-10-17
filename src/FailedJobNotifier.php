@@ -11,7 +11,6 @@ class FailedJobNotifier
     public function register()
     {
         app(QueueManager::class)->failing(function (JobFailed $event) {
-
             $notifiable = app(config('laravel-failed-job-monitor.notifiable'));
 
             $notification = app(config('laravel-failed-job-monitor.notification'))->setEvent($event);
