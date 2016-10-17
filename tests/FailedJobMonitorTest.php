@@ -7,7 +7,6 @@ use Spatie\FailedJobMonitor\Notifiable;
 use Spatie\FailedJobMonitor\Notification;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Spatie\FailedJobMonitor\Test\Dummy\Job;
-use Spatie\FailedJobMonitor\Test\Dummy\TestQueueManager;
 use Illuminate\Support\Facades\Notification as NotificationFacade;
 use Spatie\FailedJobMonitor\Test\Dummy\AnotherNotifiable;
 use Spatie\FailedJobMonitor\Test\Dummy\AnotherNotification;
