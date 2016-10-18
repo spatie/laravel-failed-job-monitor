@@ -13,7 +13,7 @@ class Notification extends IlluminateNotification
     /** @var \Illuminate\Queue\Events\JobFailed */
     protected $event;
 
-    public function via($notifiable): array
+    public function via(): array
     {
         return config('laravel-failed-job-monitor.channels');
     }
@@ -25,36 +25,22 @@ class Notification extends IlluminateNotification
         return $this;
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed $notifiable
-     *
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable): MailMessage
+    public function toMail(): MailMessage
     {
         return (new MailMessage)
             ->error()
-            ->subject('A job failed at '.env('APP_URL'))
-            ->line('Exception message:'.$this->event->exception->getMessage())
-            ->line('Job class: '.$this->event->job->resolveName())
-            ->line('Job body: '.$this->event->job->getRawBody())
-            ->line('Exception: '.$this->event->exception->getTraceAsString());
+            ->subject('A job failed at '.config('app.url'))
+            ->line("Exception message: {$this->event->exception->getMessage()}")
+            ->line("Job class: {$this->event->job->resolveName()}")
+            ->line("Job body: {$this->event->job->getRawBody()}")
+            ->line("Exception: {$this->event->exception->getTraceAsString()}");
     }
 
-    /**
-     * Get the Slack representation of the notification.
-     *
-     * @param  mixed $notifiable
-     *
-     * @return \Illuminate\Notifications\Messages\SlackMessage
-     */
-    public function toSlack($notifiable): SlackMessage
+    public function toSlack(): SlackMessage
     {
         return (new SlackMessage)
             ->error()
-            ->content('A job failed at '.env('APP_URL'))
+            ->content('A job failed at '.config('app.url'))
             ->attachment(function (SlackAttachment $attachment) {
                 $attachment->fields([
                     'Exception message' => $this->event->exception->getMessage(),

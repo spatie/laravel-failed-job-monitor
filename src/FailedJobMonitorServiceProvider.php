@@ -23,7 +23,10 @@ class FailedJobMonitorServiceProvider extends IlluminateServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/laravel-failed-job-monitor.php', 'laravel-failed-job-monitor');
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/laravel-failed-job-monitor.php',
+            'laravel-failed-job-monitor'
+        );
 
         $this->app->singleton(FailedJobNotifier::class);
     }

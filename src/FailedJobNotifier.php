@@ -18,6 +18,7 @@ class FailedJobNotifier
             if (! $this->isValidNotificationClass($notification)) {
                 throw InvalidConfiguration::notificationClassInvalid(get_class($notification));
             }
+
             $notifiable->notify($notification);
         });
     }
