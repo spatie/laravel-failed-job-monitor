@@ -12,8 +12,7 @@ class FailedJobMonitorServiceProvider extends IlluminateServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/laravel-failed-job-monitor.php' =>
-                config_path('laravel-failed-job-monitor.php'),
+            __DIR__.'/../config/laravel-failed-job-monitor.php' => config_path('laravel-failed-job-monitor.php'),
         ], 'config');
 
         $this->app->make(FailedJobNotifier::class)->register();
