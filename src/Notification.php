@@ -13,7 +13,7 @@ class Notification extends IlluminateNotification
     /** @var \Illuminate\Queue\Events\JobFailed */
     protected $event;
 
-    public function via(): array
+    public function via($notifiable): array
     {
         return config('laravel-failed-job-monitor.channels');
     }
@@ -25,7 +25,7 @@ class Notification extends IlluminateNotification
         return $this;
     }
 
-    public function toMail(): MailMessage
+    public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
             ->error()

@@ -18,6 +18,9 @@ class Notifiable
         return config('laravel-failed-job-monitor.slack.webhook_url');
     }
 
+    /**
+     * @return mixed
+     */
     public function getKey()
     {
         return 1;
