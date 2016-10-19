@@ -13,6 +13,11 @@ return [
      * in this config file.
      */
     'notifiable' => \Spatie\FailedJobMonitor\Notifiable::class,
+    
+    /*
+     * The callable (function) to filter out expected JobFailed events.
+     */
+    'callback' => '',
 
     /*
      * The channels to which the notification will be sent.

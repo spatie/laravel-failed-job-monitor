@@ -19,7 +19,14 @@ class FailedJobNotifier
                 throw InvalidConfiguration::notificationClassInvalid(get_class($notification));
             }
 
-            $notifiable->notify($notification);
+            $sendNotification = true;
+            if (config('laravel-failed-job-monitor.callback')) {
+                $sendNotification = config('laravel-failed-job-monitor.callback')($notification);
+            }
+            
+            if ($sendNotification) {
+                $notifiable->notify($notification);
+            }
         });
     }
 
