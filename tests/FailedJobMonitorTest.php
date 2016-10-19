@@ -52,9 +52,25 @@ class FailedJobMonitorTest extends TestCase
 
         NotificationFacade::assertSentTo(new Notifiable(), AnotherNotification::class);
     }
+    
+    /** @test */
+    public function it_filters_out_notifications_when_callback_returns_false()
+    {
+        $this->app['config']->set('laravel-failed-job-monitor.callback', [$this, 'returnsFalseWhenExcpetionIsEmpty']);
+        
+        $this->fireFailedEvent();
+        
+        NotificationFacade::assertNotSentTo(new Notifiable(), AnotherNotification::class);
+    }
 
     protected function fireFailedEvent()
     {
         return event(new JobFailed('test', new Job(), new \Exception()));
+    }
+    
+    public function returnsFalseWhenExcpetionIsEmpty($notification)
+    {
+        $message = $notification->getEvent()->exception->getMessage();
+        return !empty($message);
     }
 }
