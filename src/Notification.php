@@ -24,6 +24,11 @@ class Notification extends IlluminateNotification
 
         return $this;
     }
+    
+    public function getEvent(): JobFailed
+    {
+        return $this->event;
+    }
 
     public function toMail($notifiable): MailMessage
     {

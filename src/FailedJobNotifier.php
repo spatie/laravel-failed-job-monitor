@@ -20,7 +20,7 @@ class FailedJobNotifier
             }
 
             $sendNotification = true;
-            if (config('laravel-failed-job-monitor.callback')) {
+            if (is_callable(config('laravel-failed-job-monitor.callback'))) {
                 $sendNotification = config('laravel-failed-job-monitor.callback')($notification);
             }
             
