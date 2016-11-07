@@ -19,12 +19,7 @@ class FailedJobNotifier
                 throw InvalidConfiguration::notificationClassInvalid(get_class($notification));
             }
 
-            $sendNotification = true;
-            if (is_callable(config('laravel-failed-job-monitor.callback'))) {
-                $sendNotification = config('laravel-failed-job-monitor.callback')($notification);
-            }
-            
-            if ($sendNotification) {
+            if ($this->shouldSendNotification($notification)) {
                 $notifiable->notify($notification);
             }
         });
@@ -41,5 +36,16 @@ class FailedJobNotifier
         }
 
         return false;
+    }
+
+    public function shouldSendNotification($notification)
+    {
+        $callable = config('laravel-failed-job-monitor.notificationFilter');
+
+        if (! is_callable($callable)) {
+            return true;
+        }
+
+        return $callable($notification);
     }
 }
