@@ -3,6 +3,7 @@
 namespace Spatie\FailedJobMonitor\Exceptions;
 
 use Exception;
+use Illuminate\Notifications\Notification;
 
 class InvalidConfiguration extends Exception
 {
