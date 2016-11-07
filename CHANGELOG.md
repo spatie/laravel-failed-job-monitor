@@ -2,6 +2,10 @@
 
 All notable changes to laravel-failed-job-monitor will be documented in this file
 
+## 2.1.1 - 2016-11-07
+
+- fix `InvalidConfiguration` exception
+
 ## 2.1.0 - 2016-11-07
 
 - add `notificationFilter`
