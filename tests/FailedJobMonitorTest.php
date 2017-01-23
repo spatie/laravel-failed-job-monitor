@@ -5,11 +5,11 @@ namespace Spatie\FailedJobMonitor\Test;
 use Illuminate\Queue\Events\JobFailed;
 use Spatie\FailedJobMonitor\Notifiable;
 use Spatie\FailedJobMonitor\Notification;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Spatie\FailedJobMonitor\Test\Dummy\Job;
-use Illuminate\Support\Facades\Notification as NotificationFacade;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Spatie\FailedJobMonitor\Test\Dummy\AnotherNotifiable;
 use Spatie\FailedJobMonitor\Test\Dummy\AnotherNotification;
+use Illuminate\Support\Facades\Notification as NotificationFacade;
 
 class FailedJobMonitorTest extends TestCase
 {
