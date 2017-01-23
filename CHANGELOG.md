@@ -2,6 +2,10 @@
 
 All notable changes to laravel-failed-job-monitor will be documented in this file
 
+## 2.2.0 - 2017-01-23
+
+- add support for Laravel 5.4
+
 ## 2.1.1 - 2016-11-07
 
 - fix `InvalidConfiguration` exception
