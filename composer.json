@@ -1,49 +1,51 @@
 {
-    "name": "spatie/laravel-failed-job-monitor",
-    "description": "Get notified when a queued job fails",
-    "keywords": [
-        "spatie",
-        "queue",
-        "job",
-        "monitor",
-        "notify",
-        "slack",
-        "laravel-failed-job-monitor"
-    ],
-    "homepage": "https://github.com/spatie/laravel-failed-job-monitor",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Freek Van der Herten",
-            "email": "freek@spatie.be",
-            "homepage": "https://spatie.be",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php" : "^7.0",
-        "illuminate/queue": "~5.3.8|~5.4.0",
-        "illuminate/notifications": "~5.3.8|~5.4.0"
-
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^5.5.4",
-        "orchestra/testbench":"~3.3.1|~3.4.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Spatie\\FailedJobMonitor\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Spatie\\FailedJobMonitor\\Test\\": "tests"
-        }
-    },
-    "scripts": {
-        "test": "vendor/bin/phpunit"
-    },
-    "suggest": {
-        "guzzlehttp/guzzle": "Allows notifications to be sent via Slack"
+  "name": "spatie/laravel-failed-job-monitor",
+  "description": "Get notified when a queued job fails",
+  "keywords": [
+    "spatie",
+    "queue",
+    "job",
+    "monitor",
+    "notify",
+    "slack",
+    "laravel-failed-job-monitor"
+  ],
+  "homepage": "https://github.com/spatie/laravel-failed-job-monitor",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Freek Van der Herten",
+      "email": "freek@spatie.be",
+      "homepage": "https://spatie.be",
+      "role": "Developer"
     }
+  ],
+  "require": {
+    "php" : "^7.0",
+    "illuminate/contracts": "~5.3.29|~5.4.0",
+    "illuminate/queue": "~5.3.29|~5.4.0",
+    "illuminate/notifications": "~5.3.29|~5.4.0",
+    "illuminate/support": "~5.3.29|~5.4.0"
+
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.5.4",
+    "orchestra/testbench":"~3.3.4|~3.4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Spatie\\FailedJobMonitor\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Spatie\\FailedJobMonitor\\Test\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
+  },
+  "suggest": {
+    "guzzlehttp/guzzle": "Allows notifications to be sent via Slack"
+  }
 }
