@@ -30,7 +30,7 @@ class FailedJobMonitorTest extends TestCase
     {
         $this->fireFailedEvent();
 
-        NotificationFacade::assertSentTo(new Notifiable(), Notification::class);
+        NotificationFacade::assertSent(new Notifiable(), Notification::class);
     }
 
     /** @test */
@@ -40,7 +40,7 @@ class FailedJobMonitorTest extends TestCase
 
         $this->fireFailedEvent();
 
-        NotificationFacade::assertSentTo(new AnotherNotifiable(), Notification::class);
+        NotificationFacade::assertSent(new AnotherNotifiable(), Notification::class);
     }
 
     /** @test */
@@ -50,7 +50,7 @@ class FailedJobMonitorTest extends TestCase
 
         $this->fireFailedEvent();
 
-        NotificationFacade::assertSentTo(new Notifiable(), AnotherNotification::class);
+        NotificationFacade::assertSent(new Notifiable(), AnotherNotification::class);
     }
 
     /** @test */
@@ -60,7 +60,7 @@ class FailedJobMonitorTest extends TestCase
 
         $this->fireFailedEvent();
 
-        NotificationFacade::assertNotSentTo(new Notifiable(), AnotherNotification::class);
+        NotificationFacade::assertNotSent(new Notifiable(), AnotherNotification::class);
     }
 
     protected function fireFailedEvent()
