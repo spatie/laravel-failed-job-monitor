@@ -18,6 +18,11 @@ You can install the package via composer:
 ``` bash
 composer require spatie/laravel-failed-job-monitor
 ```
+If you intend to use Slack notifications you should also install the guzzle client:
+
+``` bash
+composer require guzzlehttp/guzzle
+```
 
 Next up, the service provider must be registered:
 
