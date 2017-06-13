@@ -47,5 +47,12 @@
   },
   "suggest": {
     "guzzlehttp/guzzle": "Allows notifications to be sent via Slack"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Spatie\\FailedJobMonitor\\FailedJobMonitorServiceProvider"
+      ]
+    }
   }
 }
