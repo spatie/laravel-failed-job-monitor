@@ -36,7 +36,7 @@ class FailedJobMonitorTest extends TestCase
     /** @test */
     public function it_can_send_notification_when_job_failed_to_different_notifiable()
     {
-        $this->app['config']->set('laravel-failed-job-monitor.notifiable', AnotherNotifiable::class);
+        $this->app['config']->set('failed-job-monitor.notifiable', AnotherNotifiable::class);
 
         $this->fireFailedEvent();
 
@@ -46,7 +46,7 @@ class FailedJobMonitorTest extends TestCase
     /** @test */
     public function it_can_send_notification_when_job_failed_to_different_notification()
     {
-        $this->app['config']->set('laravel-failed-job-monitor.notification', AnotherNotification::class);
+        $this->app['config']->set('failed-job-monitor.notification', AnotherNotification::class);
 
         $this->fireFailedEvent();
 
@@ -56,7 +56,7 @@ class FailedJobMonitorTest extends TestCase
     /** @test */
     public function it_filters_out_notifications_when_the_notificationFilter_returns_false()
     {
-        $this->app['config']->set('laravel-failed-job-monitor.callback', [$this, 'returnsFalseWhenExceptionIsEmpty']);
+        $this->app['config']->set('failed-job-monitor.callback', [$this, 'returnsFalseWhenExceptionIsEmpty']);
 
         $this->fireFailedEvent();
 

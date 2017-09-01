@@ -10,12 +10,12 @@ class Notifiable
 
     public function routeNotificationForMail(): string
     {
-        return config('laravel-failed-job-monitor.mail.to');
+        return config('failed-job-monitor.mail.to');
     }
 
     public function routeNotificationForSlack(): string
     {
-        return config('laravel-failed-job-monitor.slack.webhook_url');
+        return config('failed-job-monitor.slack.webhook_url');
     }
 
     /**

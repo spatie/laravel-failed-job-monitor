@@ -15,7 +15,7 @@ class Notification extends IlluminateNotification
 
     public function via($notifiable): array
     {
-        return config('laravel-failed-job-monitor.channels');
+        return config('failed-job-monitor.channels');
     }
 
     public function setEvent(JobFailed $event): self

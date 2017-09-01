@@ -24,15 +24,7 @@ If you intend to use Slack notifications you should also install the guzzle clie
 composer require guzzlehttp/guzzle
 ```
 
-Next up, the service provider must be registered:
-
-```php
-'providers' => [
-    ...
-    Spatie\FailedJobMonitor\FailedJobMonitorServiceProvider::class,
-    ...
-];
-```
+The service provider will automatically be registered.
 
 Next, you must publish the config file:
 
