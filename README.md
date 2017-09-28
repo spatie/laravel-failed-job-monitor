@@ -71,7 +71,7 @@ return [
  
 The default notification class provided by this package has support for mail and Slack. 
 
-If you want to to customize the notification you can specify your own notification class in the config file.
+If you want to customize the notification you can specify your own notification class in the config file.
 
 ```php
 // config/laravel-failed-job-monitor.php
