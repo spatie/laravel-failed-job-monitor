@@ -94,14 +94,6 @@ return [
     ...
 ```
 
-## Postcardware
-
-You're free to use this package (it's [MIT-licensed](LICENSE.md)), but if it makes it to your production environment we highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using.
-
-Our address is: Spatie, Samberstraat 69D, 2060 Antwerp, Belgium.
-
-All postcards are published [on our website](https://spatie.be/en/opensource/postcards).
-
 ## Usage
 
 If you configured the package correctly, you're done. You'll receive a notification when a queued job fails.
@@ -124,6 +116,14 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
 
 If you discover any security related issues, please email freek@spatie.be instead of using the issue tracker.
 
+## Postcardware
+
+You're free to use this package (it's [MIT-licensed](LICENSE.md)), but if it makes it to your production environment we highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using.
+
+Our address is: Spatie, Samberstraat 69D, 2060 Antwerp, Belgium.
+
+All postcards are published [on our website](https://spatie.be/en/opensource/postcards).
+
 ## Credits
 
 - [Freek Van der Herten](https://github.com/freekmurze)
@@ -131,8 +131,12 @@ If you discover any security related issues, please email freek@spatie.be instea
 
 A big thank you to [Egor Talantsev](https://github.com/spyric) for his help creating `v2` of the package.
 
-## About Spatie
+## Support us
+
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
+
+Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/spatie). 
+All pledges will be dedicated to allocating workforce on maintenance and new awesome stuff.
 
 ## License
 
