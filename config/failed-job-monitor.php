@@ -26,6 +26,8 @@ return [
      */
     'channels' => ['mail', 'slack'],
 
+    'killswitch' => env('FAILED_JOB_MONITOR_KILLSWITCH', false),
+
     'mail' => [
         'to' => 'email@example.com',
     ],
