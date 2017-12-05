@@ -35,24 +35,39 @@ php artisan vendor:publish --provider="Spatie\FailedJobMonitor\FailedJobMonitorS
 This is the contents of the default configuration file.  Here you can specify the notifiable to which the notifications should be sent. The default notifiable will use the variables specified in this config file.
 
 ```php
+<?php
+
 return [
 
-    /**
+    /*
      * The notification that will be sent when a job fails.
      */
     'notification' => \Spatie\FailedJobMonitor\Notification::class,
 
-    /**
+    /*
      * The notifiable to which the notification will be sent. The default
      * notifiable will use the mail and slack configuration specified
      * in this config file.
      */
     'notifiable' => \Spatie\FailedJobMonitor\Notifiable::class,
 
-    /**
+    /*
+     * By default notifications are sent for all failures. You can pass a callable to filter
+     * out certain notifications. The given callable will receive the notification. If the callable
+     * return false, the notification will not be sent.
+     */
+    'notificationFilter' => null,
+
+    /*
      * The channels to which the notification will be sent.
      */
     'channels' => ['mail', 'slack'],
+
+    /*
+     * If you need to turn off the failed job notifications,
+     * this provides you a quick killswitch to turn them off
+     */
+    'killswitch' => env('FAILED_JOB_MONITOR_KILLSWITCH', false),
 
     'mail' => [
         'to' => 'email@example.com',
@@ -93,6 +108,9 @@ return [
     'notifiable' => \App\CustomNotifiableForFailedJobMonitor::class,
     ...
 ```
+### Kill Switch
+
+If you are working locally and offline or have another reason to turn off the failed job notifications, you can set the `FAILED_JOB_MONITOR_KILLSWITCH=true` in your `.env` file to turn off the notifications.
 
 ## Usage
 
