@@ -40,6 +40,10 @@ class FailedJobNotifier
 
     public function shouldSendNotification($notification)
     {
+        if (config('failed-job-monitor.killswitch', false)) {
+            return false;
+        }
+
         $callable = config('failed-job-monitor.notificationFilter');
 
         if (! is_callable($callable)) {

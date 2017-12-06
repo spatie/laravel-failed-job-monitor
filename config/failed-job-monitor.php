@@ -26,6 +26,12 @@ return [
      */
     'channels' => ['mail', 'slack'],
 
+    /*
+     * If you need to turn off the failed job notifications,
+     * this provides you a quick killswitch to turn them off
+     */
+    'killswitch' => env('FAILED_JOB_MONITOR_KILLSWITCH', false),
+
     'mail' => [
         'to' => 'email@example.com',
     ],

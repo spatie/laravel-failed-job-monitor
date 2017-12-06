@@ -63,6 +63,26 @@ class FailedJobMonitorTest extends TestCase
         NotificationFacade::assertNotSentTo(new Notifiable(), AnotherNotification::class);
     }
 
+    /** @test */
+    public function it_does_not_send_a_notification_when_killswith_is_on()
+    {
+        $this->app['config']->set('failed-job-monitor.killswitch', true);
+
+        $this->fireFailedEvent();
+
+        NotificationFacade::assertNothingSent();
+    }
+
+    /** @test */
+    public function it_does_send_a_notification_when_killswith_is_off()
+    {
+        $this->app['config']->set('failed-job-monitor.killswitch', false);
+
+        $this->fireFailedEvent();
+
+        NotificationFacade::assertSentTo(new Notifiable(), Notification::class);
+    }
+
     protected function fireFailedEvent()
     {
         return event(new JobFailed('test', new Job(), new \Exception()));
