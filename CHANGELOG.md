@@ -2,6 +2,10 @@
 
 All notable changes to laravel-failed-job-monitor will be documented in this file
 
+## 3.0.2 - 2018-08-27
+
+- add support for Laravel 5.7
+
 ## 3.0.1 - 2018-02-13
 
 - add support for Laravel 5.6
