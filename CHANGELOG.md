@@ -2,8 +2,12 @@
 
 All notable changes to laravel-failed-job-monitor will be documented in this file
 
+## 3.1.0 - 2019-02-27
 
-## 3.0.3 - 2018-09-27
+- drop support for PHP 7.1
+- drop support for anything lower than Laravel 5.8
+
+## 3.0.3 - 2019-02-27
 
 - add support for Laravel 5.8
 

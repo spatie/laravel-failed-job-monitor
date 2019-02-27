@@ -9,11 +9,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     use DatabaseMigrations;
 
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     protected function getPackageProviders($app)
     {
         return [FailedJobMonitorServiceProvider::class];

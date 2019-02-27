@@ -18,7 +18,7 @@ class FailedJobMonitorTest extends TestCase
     /** @var \Spatie\FailedJobMonitor\Test\Dummy\TestQueueManager */
     protected $manager;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
