@@ -29,7 +29,7 @@
     "orchestra/testbench":"~3.8.0"
   },
   "suggest": {
-    "laravel/slack-notification-channel": "Required for sending notification via Slack"
+    "laravel/slack-notification-channel": "Required for sending notifications via Slack"
   },
   "autoload": {
     "psr-4": {
