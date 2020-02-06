@@ -13,7 +13,7 @@ class Notifiable
         return config('failed-job-monitor.mail.to');
     }
 
-    public function routeNotificationForSlack(): string
+    public function routeNotificationForSlack(): ?string
     {
         return config('failed-job-monitor.slack.webhook_url');
     }
