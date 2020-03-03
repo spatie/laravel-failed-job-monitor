@@ -2,11 +2,11 @@
 
 namespace Spatie\FailedJobMonitor;
 
-use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Messages\SlackAttachment;
+use Illuminate\Notifications\Messages\SlackMessage;
 use Illuminate\Notifications\Notification as IlluminateNotification;
+use Illuminate\Queue\Events\JobFailed;
 
 class Notification extends IlluminateNotification
 {

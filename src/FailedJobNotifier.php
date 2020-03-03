@@ -2,8 +2,8 @@
 
 namespace Spatie\FailedJobMonitor;
 
-use Illuminate\Queue\QueueManager;
 use Illuminate\Queue\Events\JobFailed;
+use Illuminate\Queue\QueueManager;
 use Spatie\FailedJobMonitor\Exceptions\InvalidConfiguration;
 
 class FailedJobNotifier
