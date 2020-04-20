@@ -2,6 +2,7 @@
 
 namespace Spatie\FailedJobMonitor;
 
+use Illuminate\Notifications\Notification as IlluminateNotification;
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Queue\QueueManager;
 use Spatie\FailedJobMonitor\Exceptions\InvalidConfiguration;
@@ -31,7 +32,7 @@ class FailedJobNotifier
             return true;
         }
 
-        if (is_subclass_of($notification, Notification::class)) {
+        if (is_subclass_of($notification, IlluminateNotification::class)) {
             return true;
         }
 
