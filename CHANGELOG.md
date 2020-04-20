@@ -2,6 +2,10 @@
 
 All notable changes to laravel-failed-job-monitor will be documented in this file
 
+## 3.3.1 - 2020-04-20
+
+- allow extending Illuminate notification class (#56)
+
 ## 3.3.0 - 2020-03-03
 
 - add support for Laravel 7
