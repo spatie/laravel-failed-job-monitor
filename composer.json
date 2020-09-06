@@ -38,6 +38,7 @@
       "Spatie\\FailedJobMonitor\\Test\\": "tests"
     }
   },
+  "minimum-stability": "dev",
   "scripts": {
     "test": "vendor/bin/phpunit"
   },
