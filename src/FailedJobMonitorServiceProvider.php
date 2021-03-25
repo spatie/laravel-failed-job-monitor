@@ -2,8 +2,8 @@
 
 namespace Spatie\FailedJobMonitor;
 
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class FailedJobMonitorServiceProvider extends PackageServiceProvider
 {
