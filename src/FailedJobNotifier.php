@@ -9,7 +9,7 @@ use Spatie\FailedJobMonitor\Exceptions\InvalidConfiguration;
 
 class FailedJobNotifier
 {
-    public function register()
+    public function register(): void
     {
         app(QueueManager::class)->failing(function (JobFailed $event) {
             $notifiable = app(config('failed-job-monitor.notifiable'));
@@ -39,7 +39,7 @@ class FailedJobNotifier
         return false;
     }
 
-    public function shouldSendNotification($notification)
+    public function shouldSendNotification($notification): bool
     {
         $callable = config('failed-job-monitor.notificationFilter');
 

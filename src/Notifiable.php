@@ -18,10 +18,7 @@ class Notifiable
         return config('failed-job-monitor.slack.webhook_url');
     }
 
-    /**
-     * @return mixed
-     */
-    public function getKey()
+    public function getKey(): int
     {
         return 1;
     }
