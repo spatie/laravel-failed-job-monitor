@@ -19,6 +19,8 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 ## Installation
 
+> For Laravel versions 5.8 and 6.x, use v3.x of this package.
+
 You can install the package via composer:
 
 ``` bash
