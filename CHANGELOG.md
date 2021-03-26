@@ -2,7 +2,7 @@
 
 All notable changes to laravel-failed-job-monitor will be documented in this file
 
-## 4.0.0 - unreleased
+## 4.0.0 - 2021-03-26
 
 - Require PHP 8+
 - Drop support for PHP 7.x
