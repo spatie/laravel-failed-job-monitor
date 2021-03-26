@@ -10,8 +10,7 @@ use Illuminate\Queue\Events\JobFailed;
 
 class Notification extends IlluminateNotification
 {
-    /** @var \Illuminate\Queue\Events\JobFailed */
-    protected $event;
+    protected JobFailed $event;
 
     public function via($notifiable): array
     {

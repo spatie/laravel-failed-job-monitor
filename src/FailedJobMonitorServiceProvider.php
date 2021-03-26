@@ -2,32 +2,25 @@
 
 namespace Spatie\FailedJobMonitor;
 
-use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class FailedJobMonitorServiceProvider extends IlluminateServiceProvider
+class FailedJobMonitorServiceProvider extends PackageServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     */
-    public function boot()
+    public function configurePackage(Package $package): void
     {
-        $this->publishes([
-            __DIR__.'/../config/failed-job-monitor.php' => config_path('failed-job-monitor.php'),
-        ], 'config');
+        $package
+            ->name('laravel-failed-job-monitor')
+            ->hasConfigFile();
+    }
 
+    public function packageBooted(): void
+    {
         $this->app->make(FailedJobNotifier::class)->register();
     }
 
-    /**
-     * Register the application services.
-     */
-    public function register()
+    public function packageRegistered(): void
     {
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/failed-job-monitor.php',
-            'failed-job-monitor'
-        );
-
         $this->app->singleton(FailedJobNotifier::class);
     }
 }

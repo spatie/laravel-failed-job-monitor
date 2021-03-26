@@ -19,6 +19,8 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 ## Installation
 
+> For Laravel versions 5.8 and 6.x, use v3.x of this package.
+
 You can install the package via composer:
 
 ``` bash
@@ -35,7 +37,7 @@ The service provider will automatically be registered.
 Next, you must publish the config file:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\FailedJobMonitor\FailedJobMonitorServiceProvider"
+php artisan vendor:publish --tag=laravel-failed-job-monitor-config
 ```
 
 This is the contents of the default configuration file.  Here you can specify the notifiable to which the notifications should be sent. The default notifiable will use the variables specified in this config file.
