@@ -37,7 +37,7 @@ The service provider will automatically be registered.
 Next, you must publish the config file:
 
 ```bash
-php artisan vendor:publish --tag=laravel-failed-job-monitor-config
+php artisan vendor:publish --tag=failed-job-monitor-config
 ```
 
 This is the contents of the default configuration file.  Here you can specify the notifiable to which the notifications should be sent. The default notifiable will use the variables specified in this config file.
