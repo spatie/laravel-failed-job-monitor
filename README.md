@@ -81,7 +81,7 @@ The default notification class provided by this package has support for mail and
 If you want to customize the notification you can specify your own notification class in the config file.
 
 ```php
-// config/laravel-failed-job-monitor.php
+// config/failed-job-monitor.php
 return [
     ...
     'notification' => \App\Notifications\CustomNotificationForFailedJobMonitor::class,
@@ -95,7 +95,7 @@ The default notifiable class provided by this package use the `channels`, `mail`
 If you want to customize the notifiable you can specify your own notifiable class in the config file.
 
 ```php
-// config/laravel-failed-job-monitor.php
+// config/failed-job-monitor.php
 return [
     'notifiable' => \App\CustomNotifiableForFailedJobMonitor::class,
     ...
