@@ -57,6 +57,13 @@ return [
      */
     'notifiable' => \Spatie\FailedJobMonitor\Notifiable::class,
 
+    /*
+     * By default notifications are sent for all failures. You can pass a callable to filter
+     * out certain notifications. The given callable will receive the notification. If the callable
+     * return false, the notification will not be sent.
+     */
+    'notificationFilter' => null,
+
     /**
      * The channels to which the notification will be sent.
      */
