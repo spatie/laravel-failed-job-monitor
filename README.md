@@ -108,6 +108,57 @@ return [
     ...
 ```
 
+### Filtering the notifications
+
+To filter the notifications, pass a closure to the `notificationFilter`.
+
+```php
+// config/failed-job-monitor.php
+return [
+    ...
+    'notificationFilter' => function (Spatie\FailedJobMonitor\Notification $notification): bool
+    {
+        return true;
+    }
+    ...
+```
+
+The above works only that Laravel doesn't support closure serialization. Thus you will get the following error when you run `php artisan config:cache`
+
+```
+LogicException  : Your configuration files are not serializable.
+```
+
+It would thus be better to create a separate class and use a callable as the callback.
+
+
+```php
+<?php
+
+namespace App\Notifications;
+
+use Spatie\FailedJobMonitor\Notification;
+
+class FailedJobNotification
+{
+    public function notificationFilter(Notification $notification): bool
+    {
+        return true;
+    }
+}
+
+```
+
+And reference it in the configuration file.
+
+```php
+// config/failed-job-monitor.php
+return [
+    ...
+    'notificationFilter' => [App\Notifications\FailedJobNotification::class, 'notificationFilter'],
+    ...
+```
+
 ## Usage
 
 If you configured the package correctly, you're done. You'll receive a notification when a queued job fails.
