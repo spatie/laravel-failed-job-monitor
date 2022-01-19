@@ -57,6 +57,13 @@ return [
      */
     'notifiable' => \Spatie\FailedJobMonitor\Notifiable::class,
 
+    /*
+     * By default notifications are sent for all failures. You can pass a callable to filter
+     * out certain notifications. The given callable will receive the notification. If the callable
+     * return false, the notification will not be sent.
+     */
+    'notificationFilter' => null,
+
     /**
      * The channels to which the notification will be sent.
      */
@@ -98,6 +105,57 @@ If you want to customize the notifiable you can specify your own notifiable clas
 // config/failed-job-monitor.php
 return [
     'notifiable' => \App\CustomNotifiableForFailedJobMonitor::class,
+    ...
+```
+
+### Filtering the notifications
+
+To filter the notifications, pass a closure to the `notificationFilter`.
+
+```php
+// config/failed-job-monitor.php
+return [
+    ...
+    'notificationFilter' => function (Spatie\FailedJobMonitor\Notification $notification): bool
+    {
+        return true;
+    }
+    ...
+```
+
+The above works only that Laravel doesn't support closure serialization. Thus you will get the following error when you run `php artisan config:cache`
+
+```
+LogicException  : Your configuration files are not serializable.
+```
+
+It would thus be better to create a separate class and use a callable as the callback.
+
+
+```php
+<?php
+
+namespace App\Notifications;
+
+use Spatie\FailedJobMonitor\Notification;
+
+class FailedJobNotification
+{
+    public function notificationFilter(Notification $notification): bool
+    {
+        return true;
+    }
+}
+
+```
+
+And reference it in the configuration file.
+
+```php
+// config/failed-job-monitor.php
+return [
+    ...
+    'notificationFilter' => [App\Notifications\FailedJobNotification::class, 'notificationFilter'],
     ...
 ```
 
