@@ -53,5 +53,7 @@
                 "Spatie\\FailedJobMonitor\\FailedJobMonitorServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
 }
