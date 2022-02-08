@@ -6,11 +6,11 @@ jobs:
     test:
         runs-on: ${{ matrix.os }}
         strategy:
-            fail-fast: true
+            fail-fast: false
             matrix:
                 os: [ubuntu-latest]
-                php: [8.0]
-                laravel: [7.*, 8.*]
+                php: [8.0, 8.1]
+                laravel: [7.*, 8.*, 9.*]
                 dependency-version: [prefer-lowest, prefer-stable]
                 include:
                     -   laravel: 8.*
