@@ -5,6 +5,7 @@ namespace Spatie\FailedJobMonitor;
 use Illuminate\Notifications\Notification as IlluminateNotification;
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Queue\QueueManager;
+use Illuminate\Support\Facades\Cache;
 use Spatie\FailedJobMonitor\Exceptions\InvalidConfiguration;
 
 class FailedJobNotifier
@@ -16,7 +17,7 @@ class FailedJobNotifier
 
             $notification = app(config('failed-job-monitor.notification'))->setEvent($event);
 
-            if (! $this->isValidNotificationClass($notification)) {
+            if (!$this->isValidNotificationClass($notification)) {
                 throw InvalidConfiguration::notificationClassInvalid(get_class($notification));
             }
 
@@ -41,12 +42,22 @@ class FailedJobNotifier
 
     public function shouldSendNotification($notification): bool
     {
-        $callable = config('failed-job-monitor.notificationFilter');
-
-        if (! is_callable($callable)) {
-            return true;
+        $throttelingSecconds = config('failed-job-monitor.throtteling');
+        if ($throttelingSecconds) {
+            $cache = Cache::store(config('failed-job-monitor.throtteling_cache_store'));
+            $cacheKey = 'failed-job-monitor.throttleing';
+            if ($cache->has($cacheKey)) {
+                return false;
+            }
         }
 
-        return $callable($notification);
+        $callable = config('failed-job-monitor.notificationFilter');
+        $result = !is_callable($callable) ? true : $callable($notification);
+
+        if ($result && $cache && $cacheKey) {
+            $cache->put($cacheKey, true, $throttelingSecconds);
+        }
+
+        return true;
     }
 }

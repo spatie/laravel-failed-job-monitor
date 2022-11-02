@@ -15,6 +15,16 @@ return [
     'notifiable' => \Spatie\FailedJobMonitor\Notifiable::class,
 
     /*
+     * Number of seconds to wait before sending another notification
+     */
+    'throtteling' => false,
+
+    /*
+     * Number of seconds to wait before sending another notification
+     */
+    'throtteling_cache_store' => 'file',
+
+    /*
      * By default notifications are sent for all failures. You can pass a callable to filter
      * out certain notifications. The given callable will receive the notification. If the callable
      * return false, the notification will not be sent.
