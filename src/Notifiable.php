@@ -8,9 +8,15 @@ class Notifiable
 {
     use NotifiableTrait;
 
-    public function routeNotificationForMail(): string
+    public function routeNotificationForMail(): array
     {
-        return config('failed-job-monitor.mail.to');
+        $recipients = config('failed-job-monitor.mail.to');
+
+        if (is_string($recipients)) {
+            return [$recipients];
+        }
+
+        return $recipients;
     }
 
     public function routeNotificationForSlack(): string
