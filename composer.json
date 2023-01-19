@@ -1,7 +1,7 @@
 {
-    "name" : "spatie/laravel-failed-job-monitor",
-    "description" : "Get notified when a queued job fails",
-    "keywords" : [
+    "name": "spatie/laravel-failed-job-monitor",
+    "description": "Get notified when a queued job fails",
+    "keywords": [
         "spatie",
         "queue",
         "job",
@@ -10,46 +10,46 @@
         "slack",
         "laravel-failed-job-monitor"
     ],
-    "homepage" : "https://github.com/spatie/laravel-failed-job-monitor",
-    "license" : "MIT",
-    "authors" : [
+    "homepage": "https://github.com/spatie/laravel-failed-job-monitor",
+    "license": "MIT",
+    "authors": [
         {
-            "name" : "Freek Van der Herten",
-            "email" : "freek@spatie.be",
-            "homepage" : "https://spatie.be",
-            "role" : "Developer"
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be",
+            "homepage": "https://spatie.be",
+            "role": "Developer"
         }
     ],
-    "require" : {
-        "php" : "^8.0",
-        "laravel/framework" : "^7.0|^8.0|^9.0",
+    "require": {
+        "php": "^8.0",
+        "laravel/framework": "^7.0|^8.0|^9.0|^10.0",
         "spatie/laravel-package-tools": "^1.6"
     },
-    "require-dev" : {
-        "phpunit/phpunit" : "^8.5|^9.5",
+    "require-dev": {
+        "phpunit/phpunit": "^8.5|^9.5",
         "mockery/mockery": "^1.4",
-        "orchestra/testbench" : "^5.0|^6.0|^7.0"
+        "orchestra/testbench": "^5.0|^6.0|^7.0|^8.0"
     },
-    "autoload" : {
-        "psr-4" : {
-            "Spatie\\FailedJobMonitor\\" : "src"
+    "autoload": {
+        "psr-4": {
+            "Spatie\\FailedJobMonitor\\": "src"
         }
     },
-    "autoload-dev" : {
-        "psr-4" : {
-            "Spatie\\FailedJobMonitor\\Test\\" : "tests"
+    "autoload-dev": {
+        "psr-4": {
+            "Spatie\\FailedJobMonitor\\Test\\": "tests"
         }
     },
-    "scripts" : {
-        "test" : "vendor/bin/phpunit"
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     },
-    "suggest" : {
-        "guzzlehttp/guzzle" : "Allows notifications to be sent to Slack",
-        "laravel/slack-notification-channel" : "Required for sending notifications via Slack"
+    "suggest": {
+        "guzzlehttp/guzzle": "Allows notifications to be sent to Slack",
+        "laravel/slack-notification-channel": "Required for sending notifications via Slack"
     },
-    "extra" : {
-        "laravel" : {
-            "providers" : [
+    "extra": {
+        "laravel": {
+            "providers": [
                 "Spatie\\FailedJobMonitor\\FailedJobMonitorServiceProvider"
             ]
         }
