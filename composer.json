@@ -26,9 +26,9 @@
         "spatie/laravel-package-tools": "^1.6"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5|^9.5",
         "mockery/mockery": "^1.4",
-        "orchestra/testbench": "^5.0|^6.0|^7.0|^8.0"
+        "orchestra/testbench": "^5.0|^6.0|^7.0|^8.0",
+        "pestphp/pest": "^1.22"
     },
     "autoload": {
         "psr-4": {
@@ -41,7 +41,7 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/pest"
     },
     "suggest": {
         "guzzlehttp/guzzle": "Allows notifications to be sent to Slack",
@@ -55,5 +55,10 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
 }
