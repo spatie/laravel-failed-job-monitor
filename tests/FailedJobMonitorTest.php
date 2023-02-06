@@ -17,7 +17,7 @@ beforeAll(function () {
     {
         $message = $notification->getEvent()->exception->getMessage();
 
-        return !empty($message);
+        return ! empty($message);
     }
 });
 
