@@ -1,8 +1,5 @@
 <?php
 
-namespace Spatie\FailedJobMonitor\Test;
-
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Support\Facades\Notification as NotificationFacade;
 use Spatie\FailedJobMonitor\Notifiable;
@@ -11,67 +8,49 @@ use Spatie\FailedJobMonitor\Test\Dummy\AnotherNotifiable;
 use Spatie\FailedJobMonitor\Test\Dummy\AnotherNotification;
 use Spatie\FailedJobMonitor\Test\Dummy\Job;
 
-class FailedJobMonitorTest extends TestCase
-{
-    use DatabaseMigrations;
-
-    /** @var \Spatie\FailedJobMonitor\Test\Dummy\TestQueueManager */
-    protected $manager;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        NotificationFacade::fake();
-    }
-
-    /** @test */
-    public function it_can_send_notification_when_a_job_failed()
-    {
-        $this->fireFailedEvent();
-
-        NotificationFacade::assertSentTo(new Notifiable(), Notification::class);
-    }
-
-    /** @test */
-    public function it_can_send_notification_when_job_failed_to_different_notifiable()
-    {
-        $this->app['config']->set('failed-job-monitor.notifiable', AnotherNotifiable::class);
-
-        $this->fireFailedEvent();
-
-        NotificationFacade::assertSentTo(new AnotherNotifiable(), Notification::class);
-    }
-
-    /** @test */
-    public function it_can_send_notification_when_job_failed_to_different_notification()
-    {
-        $this->app['config']->set('failed-job-monitor.notification', AnotherNotification::class);
-
-        $this->fireFailedEvent();
-
-        NotificationFacade::assertSentTo(new Notifiable(), AnotherNotification::class);
-    }
-
-    /** @test */
-    public function it_filters_out_notifications_when_the_notificationFilter_returns_false()
-    {
-        $this->app['config']->set('failed-job-monitor.callback', [$this, 'returnsFalseWhenExceptionIsEmpty']);
-
-        $this->fireFailedEvent();
-
-        NotificationFacade::assertNotSentTo(new Notifiable(), AnotherNotification::class);
-    }
-
-    protected function fireFailedEvent()
+beforeAll(function () {
+    function fireFailedEvent()
     {
         return event(new JobFailed('test', new Job(), new \Exception()));
     }
-
-    public function returnsFalseWhenExceptionIsEmpty($notification)
+    function returnsFalseWhenExceptionIsEmpty($notification)
     {
         $message = $notification->getEvent()->exception->getMessage();
 
-        return ! empty($message);
+        return !empty($message);
     }
-}
+});
+
+beforeEach(function () {
+    NotificationFacade::fake();
+});
+
+it('can send notification when a job failed', function () {
+    fireFailedEvent();
+
+    NotificationFacade::assertSentTo(new Notifiable(), Notification::class);
+});
+
+it('can send notification when job failed to different notifiable', function () {
+    config()->set('failed-job-monitor.notifiable', AnotherNotifiable::class);
+
+    fireFailedEvent();
+
+    NotificationFacade::assertSentTo(new AnotherNotifiable(), Notification::class);
+});
+
+it('can send notification when job failed to different notification', function () {
+    config()->set('failed-job-monitor.notification', AnotherNotification::class);
+
+    fireFailedEvent();
+
+    NotificationFacade::assertSentTo(new Notifiable(), AnotherNotification::class);
+});
+
+it('filters out notifications when the notificationFilter returns `false`', function () {
+    config()->set('failed-job-monitor.callback', 'returnsFalseWhenExceptionIsEmpty');
+
+    fireFailedEvent();
+
+    NotificationFacade::assertNotSentTo(new Notifiable(), AnotherNotification::class);
+});
