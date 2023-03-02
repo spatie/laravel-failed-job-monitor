@@ -141,7 +141,7 @@ use Spatie\FailedJobMonitor\Notification;
 
 class FailedJobNotification
 {
-    public function notificationFilter(Notification $notification): bool
+    public static function notificationFilter(Notification $notification): bool
     {
         return true;
     }
