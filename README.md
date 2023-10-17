@@ -1,10 +1,8 @@
 # Get notified when a queued job fails
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-failed-job-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-job-monitor)
-![Test Status](https://img.shields.io/github/workflow/status/spatie/laravel-failed-job-monitor/run-tests?label=tests&style=flat-square)
+![Test Status](https://img.shields.io/github/actions/workflow/status/spatie/laravel-failed-job-monitor/run-tests.yml?label=tests&style=flat-square)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/spatie/laravel-failed-job-monitor/master.svg?style=flat-square)](https://travis-ci.org/spatie/laravel-failed-job-monitor)
-[![StyleCI](https://styleci.io/repos/52006263/shield)](https://styleci.io/repos/52006263)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-failed-job-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-job-monitor)
 
 This package sends notifications if a queued job fails. Out of the box it can send a notification via mail and/or Slack. It leverages Laravel's native notification system.
