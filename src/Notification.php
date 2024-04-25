@@ -31,18 +31,19 @@ class Notification extends IlluminateNotification
 
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->error()
             ->subject('A job failed at '.config('app.url'))
             ->line("Exception message: {$this->event->exception->getMessage()}")
             ->line("Job class: {$this->event->job->resolveName()}")
             ->line("Job body: {$this->event->job->getRawBody()}")
-            ->line("Exception: {$this->event->exception->getTraceAsString()}");
+            ->line("Exception: {$this->event->exception->getTraceAsString()}")
+            ->action('View Error', url(config('horizon.path').'/failed/'.$this->event->job->getJobId()));
     }
 
     public function toSlack(): SlackMessage
     {
-        return (new SlackMessage())
+        return (new SlackMessage)
             ->error()
             ->content('A job failed at '.config('app.url'))
             ->attachment(function (SlackAttachment $attachment) {
