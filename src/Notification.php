@@ -38,7 +38,7 @@ class Notification extends IlluminateNotification
             ->line("Job class: {$this->event->job->resolveName()}")
             ->line("Job body: {$this->event->job->getRawBody()}")
             ->line("Exception: {$this->event->exception->getTraceAsString()}")
-            ->action('View Error', url(config('horizon.path').'/failed/'.$this->event->job->getJobId()));
+            ->when(config('horizon') !== null, fn (MailMessage $mailMessage) => $mailMessage->action('View Error', url(config('horizon.path').'/failed/'.$this->event->job->getJobId())));
     }
 
     public function toSlack(): SlackMessage
