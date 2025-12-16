@@ -26,17 +26,9 @@ class FailedJobNotifier
         });
     }
 
-    public function isValidNotificationClass($notification): bool
+    public function isValidNotificationClass(object $notification): bool
     {
-        if (get_class($notification) === Notification::class) {
-            return true;
-        }
-
-        if (is_subclass_of($notification, IlluminateNotification::class)) {
-            return true;
-        }
-
-        return false;
+        return $notification instanceof IlluminateNotification;
     }
 
     public function shouldSendNotification($notification): bool
