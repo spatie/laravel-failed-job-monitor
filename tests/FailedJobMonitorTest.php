@@ -48,9 +48,9 @@ it('can send notification when job failed to different notification', function (
 });
 
 it('filters out notifications when the notificationFilter returns `false`', function () {
-    config()->set('failed-job-monitor.callback', 'returnsFalseWhenExceptionIsEmpty');
+    config()->set('failed-job-monitor.notificationFilter', 'returnsFalseWhenExceptionIsEmpty');
 
     fireFailedEvent();
 
-    NotificationFacade::assertNotSentTo(new Notifiable(), AnotherNotification::class);
+    NotificationFacade::assertNotSentTo(new Notifiable(), Notification::class);
 });
