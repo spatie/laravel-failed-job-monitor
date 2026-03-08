@@ -24,10 +24,10 @@ return [
     /*
      * The channels to which the notification will be sent.
      */
-    'channels' => ['mail', 'slack'],
+    'channels' =>  explode(',', env('FAILED_JOB_CHANNELS', 'mail,slack')),
 
     'mail' => [
-        'to' => ['email@example.com'],
+        'to' => explode(',', env('FAILED_JOB_EMAILS', 'email@example.com')),
     ],
 
     'slack' => [
