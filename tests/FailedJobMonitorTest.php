@@ -54,3 +54,7 @@ it('filters out notifications when the notificationFilter returns `false`', func
 
     NotificationFacade::assertNotSentTo(new Notifiable(), Notification::class);
 });
+
+it('is enabled by default', function () {
+    expect(config('failed-job-monitor.enabled'))->toBeTrue();
+});
