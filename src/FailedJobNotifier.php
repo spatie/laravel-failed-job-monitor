@@ -11,6 +11,10 @@ class FailedJobNotifier
 {
     public function register(): void
     {
+        if (! config('failed-job-monitor.enabled', true)) {
+            return;
+        }
+
         app(QueueManager::class)->failing(function (JobFailed $event) {
             $notifiable = app(config('failed-job-monitor.notifiable'));
 
