@@ -40,8 +40,23 @@ php artisan vendor:publish --tag=failed-job-monitor-config
 
 This is the contents of the default configuration file.  Here you can specify the notifiable to which the notifications should be sent. The default notifiable will use the variables specified in this config file.
 
+Add these variables to your `.env` file:
+
+```env
+# Spatie Laravel-failed-job-monitor
+FAILED_JOB_MONITOR_ENABLED=true
+FAILED_JOB_CHANNELS=mail,slack
+FAILED_JOB_EMAILS=email@example.com
+FAILED_JOB_SLACK_WEBHOOK_URL=
+```
+
 ```php
 return [
+
+    /**
+     * Whether the failed job monitor is enabled.
+     */
+    'enabled' => env('FAILED_JOB_MONITOR_ENABLED', true),
 
     /**
      * The notification that will be sent when a job fails.
@@ -65,10 +80,10 @@ return [
     /**
      * The channels to which the notification will be sent.
      */
-    'channels' => ['mail', 'slack'],
+    'channels' => explode(',', env('FAILED_JOB_CHANNELS', 'mail,slack')),
 
     'mail' => [
-        'to' => ['email@example.com'],
+        'to' => explode(',', env('FAILED_JOB_EMAILS', 'email@example.com')),
     ],
 
     'slack' => [
@@ -78,6 +93,14 @@ return [
 ``` 
 
 ## Configuration
+
+### Enabling or disabling the monitor
+
+By default, the failed job monitor is enabled. To disable notifications (e.g., in local development), set `FAILED_JOB_MONITOR_ENABLED=false` in your `.env` file:
+
+```env
+FAILED_JOB_MONITOR_ENABLED=false
+```
 
 ### Customizing the notification
  
