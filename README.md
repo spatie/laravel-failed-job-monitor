@@ -1,7 +1,7 @@
 # Get notified when a queued job fails
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-failed-job-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-job-monitor)
-![Test Status](https://img.shields.io/github/actions/workflow/status/spatie/laravel-failed-job-monitor/run-tests.yml?label=tests&style=flat-square)
+![Test Status](https://github.com/spatie/laravel-failed-job-monitor/actions/workflows/run-tests.yml/badge.svg)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-failed-job-monitor.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-failed-job-monitor)
 
